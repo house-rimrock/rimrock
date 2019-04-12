@@ -46,87 +46,70 @@ As a user, I want to be able to read existing rock-climbing locations.
 	Test: Verify that the API can get all locations.
 
 MVC
-
 As a user, I want to be able to create an account with a unique username & log in with it.
-
-	Task: Create login endpoint
-
-	Test: Endpoint creates new user if username is new.
-
-	Test: Endpoint does not create new user if username exists.
-
-
+	Task: Create a login view with a form for logging in.
+	Task: Implement an endpoint in the Users controller that takes in a username.
+	Task: Search the Users table for a row with a matching username. If none is found, create a new row.
+	Task: GET the User with the matching username and change the state of the app to reflect the user being logged in.
+	Test: Verify that repeat usernames are not added to the database.
+	Test: Verify that new users are added to the database.
+	Test: Verify that getting a user by username gets the correct user.
 
 As a user, I want to be able to search for rock-climbing gear retailers by region.
-
-	Task: Create retailer search endpoint
-	
-Task: Allow requests to be sent to the endpoint filtering by region and sport
-
-	Test: Retailer search endpoint gets all retailers in a given region or sport
-
-	Test: Data for Retailer properly displays in an easy to read format
-
+	Task: Create a retailer search view.
+	Task: Implement an endpoint in the Home controller that takes in a region.
+	Task: GET all Retailers from the API that match the given region.
+	Test: Verify that all retailers in a region are retrieved.
 
 
 As a user, I want to be able to search for rock-climbing locations by region.
 
-	Task: Create location search endpoint
-    
-	Task: Allow requests to be sent to the endpoint filtering by region and sport
-    
-	Test: Retailer search endpoint gets all locationin a given region or sport
-    
-	Test: Data for Location properly displays in an easy to read format
+	Task: Create a location search view.
+	Task: Implement an endpoint in the Home controller that takes in a region.
+	Task: GET all Locations from the API that match the given region.
+	Test: Verify that all locations in a region are retrieved.
 
 
+As a user, I want to be able to view individual retailer details.
+	Task: Create a retailer details view.
+	Task: Implement an endpoint in the Home controller that takes in a Retailer ID.
+	Task: GET the Retailer from the API.
+	Test: Verify that getting a retailer by ID gets the correct retailer.
 
-As a user, I want to be able to view retailer details.
-    
-	Task: Create retailer details endpoint
-    
-	Test: Retailer details endpoint gets the specified retailer.
-
-
-
-As a user, I want to be able to view location details.
-    
-	Task: Create location details endpoint
-    
-	Test: Location details endpoint gets the specified location.
-
+As a user, I want to be able to view individual location details.
+	Task: Create a location details view.
+	Task: Implement an endpoint in the Home controller that takes in a Location ID.
+	Task: GET the Location from the API.
+	Test: Verify that getting a location by ID gets the correct location.
 
 
 As a user, I want to be able to view my list of favorites.
-    
-	Task: Create favorites endpoint
-    
-	Test: Favorites endpoint only gets favorites for current user
-    
-	Test: Favorites endpoint gets all favorite retailers
-    
-	Test: Favorites endpoint gets all favorite locations.
 
+	Task: Create a favorites view.
+	Task: Implement an endpoint in the Users controller that takes in a User ID.
+	Task: GET all FavoriteRetailers from the FavoriteRetailers table that match the User ID.
+	Task: GET all Retailers from the API that match the Retailer IDs from the FavoriteRetailers.
+	Task: GET all FavoriteLocations from the FavoriteLocations table that match the User ID.
+	Task: GET all Locations from the API that match the Location IDs from the FavoriteLocations.
+	Test: Verify that only the current user's favorites are gotten.
+	Test: Verify that all of the user's favorite retailers are gotten.
+	Test: Verify that all of the user's favorite locations are gotten.
 
 
 As a user, I want to be able to add & remove rock-climbing gear retailers from my list of favorites.
 
-	Task: Create endpoint for adding favorite retailers
-    
-	Task: Create endpoint for removing favorite retailers
-    
-	Test: Can add favorite retailer using endpoint
-    
-	Test: Can remove favorite retailer using endpoint
-
-
+	Task: Display an add/remove favorite button any time a Retailer is displayed when the user is logged in.
+	Task: Implement an endpoint in the Users controller that takes in a User ID and a Retailer ID.
+	Task: If a FavoriteLocation does not exist in the FavoriteLocations table that matches the given composite key, create a new one and POST it.
+	Task: If a FavoriteLocation exists in the FavoriteLocations table that matches the given composite key, DELETE it.
+	Test: Verify that new favorite retailers are added to the database.
+	Test: Verify that favorite retailers are removed from the database when un-favorited.
 
 As a user, I want to be able to add & remove rock-climbing locations from my list of favorites.
-    
-	Task: Create endpoint for adding favorite locations
-    
-	Task: Create endpoint for removing favorite locations
-    
-	Test: Can add favorite location using endpoint
-    
-	Test: Can remove favorite location using endpoint 
+
+	Task: Display an add/remove favorite button any time a Location is displayed when the user is logged in.
+	Task: Implement an endpoint in the Users controller that takes in a User ID and a Location ID.
+	Task: If a FavoriteLocation does not exist in the FavoriteLocations table that matches the given composite key, create a new one and POST it.
+	Task: If a FavoriteLocation exists in the FavoriteLocations table that matches the given composite key, DELETE it.
+	Test: Verify that new favorite locations are added to the database.
+	Test: Verify that favorite locations are removed from the database when un-favorited.
