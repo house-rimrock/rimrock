@@ -151,6 +151,9 @@ Collab project for climbing enthusiasts
 </details>
 
 ------------------------------
+## DB SCHEMA
+
+![DBSchema](https://github.com/house-rimrock/rimrock/blob/master/assets/db-schema-rimrock.png)
 
 ## WIREFRAMES
 
