@@ -1,11 +1,11 @@
-# rimrock
+# RIMROCK
 Collab project for climbing enthusiasts
 
 ### API
 
 <details>
 <summary>As a user, I want to be able to create new rock-climbing gear retailers & locations.</summary>
-<br>
+
 <p>Task: Create endpoint for creating retailers.</p>
 
 <p>Task: Create endpoint for creating locations.</p>
@@ -18,7 +18,7 @@ Collab project for climbing enthusiasts
 
 <details>
 <summary>As a user, I want to be able to update existing rock-climbing gear retailers & locations.</summary>
-<br>
+
 <p>Task: Create endpoint for updating retailers.</p>
 
 <p>Task: Create endpoint for updating locations.</p>
@@ -30,7 +30,7 @@ Collab project for climbing enthusiasts
 
 <details>
 <summary>As a user, I want to be able to delete existing rock-climbing gear retailers & locations.</summary>
-<br>
+
 <p>Task: Create endpoint for deleting retailers.</p>
 
 <p>Task: Create endpoint for deleting locations.</p>
@@ -42,7 +42,7 @@ Collab project for climbing enthusiasts
 
 <details>
 <summary>As a user, I want to be able to read existing rock-climbing gear retailers & locations.</summary>
-<br>
+
 <p>Task: Create endpoint for reading a single retailer.</p>
 
 <p>Task: Create endpoint for reading a single location.</p>
@@ -64,7 +64,7 @@ Collab project for climbing enthusiasts
 
 <details>
 <summary>As a user, I want to be able to create an account with a unique username & log in with it:</summary>
-<br>
+
 <p>Task: Create login endpoint.</p>
 
 <p>Test: Endpoint creates new user if username is new.</p>
@@ -74,7 +74,7 @@ Collab project for climbing enthusiasts
 
 <details>
 <summary>As a user, I want to be able to search for rock-climbing gear retailers & locations by region:</summary>
-<br>
+
 <p>Task: Create retailer search endpoint.</p>
 
 <p>Task: Create location search endpoint.</p>
@@ -86,7 +86,7 @@ Collab project for climbing enthusiasts
 
 <details>
 <summary>As a user, I want to be able to view retailer & location details:</summary>
-<br>
+
 <p>Task: Create retailer details endpoint.</p>
 
 <p>Task: Create location details endpoint.</p>
@@ -98,7 +98,7 @@ Collab project for climbing enthusiasts
 
 <details>
 <summary>As a user, I want to be able to view my list of favorites:</summary>
-<br>
+
 <p>Task: Create favorites endpoint.</p>
 
 <p>Test: Favorites endpoint only gets favorites for current user.</p>
@@ -110,7 +110,7 @@ Collab project for climbing enthusiasts
 
 <details>
 <summary>As a user, I want to be able to add & remove rock-climbing gear retailers & locations from my list of favorites:</summary>
-<br>
+
 <p>Task: Create endpoint for adding favorite retailers.</p>
 
 <p>Task: Create endpoint for adding favorite locations.</p>
@@ -132,7 +132,7 @@ Collab project for climbing enthusiasts
 
 <details>
 <summary>As a developer, I want to use dependency injection:</summary>
-<br>
+
 <p>Task: Create interface for handling API database calls.</p>
 
 <p>Task: Create interface for handling App database calls.</p>
@@ -166,4 +166,4 @@ Collab project for climbing enthusiasts
 
 ## Change Log
 
-1.0: 12APR2019 *Initial publish*
+0.1.0: 12APR2019 *Initial publish*
