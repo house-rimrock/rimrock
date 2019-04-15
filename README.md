@@ -7,9 +7,9 @@
 Project Midterm, one week sprint.
 
 Members:
-[Dan](https://github.com/daniellogerstedt)
-[Ben](https://github.com/BenSTay)
-[Jason](https://github.com/jasonb315)
+[Dan](https://github.com/daniellogerstedt),
+[Ben](https://github.com/BenSTay),
+[Jason](https://github.com/jasonb315),
 [Andrew](https://github.com/amjcurtis)
 
 ------------------------------
