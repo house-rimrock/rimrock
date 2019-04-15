@@ -16,7 +16,7 @@ Members:
 
 ## USER STORIES
 
-[GO TO FILE](https://github.com/jasonb315/data-structures-and-algorithms-dn/tree/master/Challenges/BinarySearch)
+[GO TO FILE](https://github.com/house-rimrock/rimrock/blob/master/UserStories.txt)
 
 ------------------------------
 ## DB SCHEMA
