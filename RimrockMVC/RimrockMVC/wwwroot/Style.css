@@ -36,12 +36,48 @@
     color: #2AF6FF;
 }
 
+/* Fonts */
+.logo {
+    font-family: 'Trade Winds';
+}
+
 /* Sidebar */
 #sidebar {
+    float: left;
     width: 20vw;
     height: 100vh;
 }
 #sidebar-top {
     width: 100%;
     height: 6vh;
+    font-size: 4vh;
+    margin-bottom: 3vh;
+    line-height: 6vh;
+    text-align: center;
+}
+.sidebar-btn {
+    width: 85%;
+    height: 5vh;
+    text-align: center;
+    line-height: 5vh;
+    margin: auto;
+    margin-bottom: .7vh;
+}
+
+#topbar {
+    width: 100%;
+    height: 6vh;
+}
+#login-btn {
+    text-align: center;
+    border-radius: 1.5vh;
+    float: right;
+    height: 3vh;
+    width: 6vw;
+    margin: 1.5vh;
+    line-height: 3vh;
+}
+#renderbody {
+    width: 100%;
+    height: 94vh;
 }
