@@ -29,6 +29,7 @@ namespace RimrockMVC.Models.Services
             {
                 User cUser = new User { Name = name };
                 await CreateUser(cUser);
+                user = await _context.Users.FirstOrDefaultAsync<User>(u => u.Name == name);
             }
             return user;
         }

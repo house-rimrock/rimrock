@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RimrockMVC.Data;
+using RimrockMVC.Models.Interfaces;
+using RimrockMVC.Models.Services;
 
 namespace RimrockMVC
 {
@@ -37,10 +40,10 @@ namespace RimrockMVC
                 ? Configuration["ConnectionStrings:DefaultConnection"]
                 : Configuration["ConnectionStrings:ProductionConnection"];
             services.AddMvc();
-            //services.AddDbContext<RimrockDBContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<RimrockDBContext>(options => options.UseSqlServer(connectionString));
+            services.AddScoped<IUserManager, UserService>();
             //services.AddScoped<IRetailerManager, RetailerService>();
             //services.AddScoped<ILocationManager, LocationService>();
-            //services.AddScoped<IUserManager, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

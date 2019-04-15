@@ -7,5 +7,7 @@ namespace RimrockMVC.Models.Interfaces
 {
     interface IFavRetailerManager
     {
+        Task CreateFavRetailer(FavRetailer favRetailer);
+        Task<IEnumerable<FavRetailer>> GetFavRetailers();
     }
 }
