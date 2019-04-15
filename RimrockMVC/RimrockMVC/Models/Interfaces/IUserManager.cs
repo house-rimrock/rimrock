@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace RimrockMVC.Models.Interfaces
 {
-    interface IUserManager
+    public interface IUserManager
     {
         Task CreateUser(User user);
 
