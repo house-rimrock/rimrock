@@ -21,7 +21,8 @@ namespace RimrockMVC.Controllers
         {
             return View();
         }
-
+        
+        [HttpPost, ActionName("Signin")]
         public async Task<IActionResult> Signin(string username)
         {
             User user = await _context.GetUser(username);

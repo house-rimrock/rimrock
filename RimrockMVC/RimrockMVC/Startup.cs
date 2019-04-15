@@ -38,7 +38,7 @@ namespace RimrockMVC
         {
             string connectionString = Environment.IsDevelopment()
                 ? Configuration["ConnectionString:Default"]
-                : Configuration["ConnectionString:Production"];
+                : Configuration["ConnectionStrings:Production"];
             services.AddMvc();
             services.AddDbContext<RimrockDBContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IUserManager, UserService>();
