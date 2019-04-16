@@ -1,0 +1,38 @@
+﻿@model RimrockMVC.Models.ViewModels.Favorites
+@{
+    ViewData["Title"] = "Favorites";
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    
+</head>
+<body>
+    <div>
+        <ul class="favoriteList">
+            @{ 
+                foreach(var loc in Model.Locations)
+                {
+                    <li>
+                        <h5>@loc.Name</h5>
+                        <p>@loc.Cost</p>
+                    </li>
+                }
+            }
+        </ul>
+        <ul class="favoriteList">
+            @{
+                foreach (var ret in Model.Retailers)
+                {
+                    <li>
+                        <h5>@ret.Name</h5>
+                        <p>@ret.Specialty</p>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</body>
+</html>
