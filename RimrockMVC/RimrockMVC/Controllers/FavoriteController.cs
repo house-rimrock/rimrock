@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RimrockMVC.Models;
 using RimrockMVC.Models.Interfaces;
+using RimrockMVC.Models.ViewModels;
 
 namespace RimrockMVC.Controllers
 {
@@ -25,12 +26,10 @@ namespace RimrockMVC.Controllers
         {
             string userSer = TempData.Peek("User").ToString();
             User user = JsonConvert.DeserializeObject<User>(userSer);
-            var locations = await _locContext.GetFavLocations();
-            
-            var retailers = await _retContext.GetFavRetailers();
-            ViewData.Add("FavLoc", locations);
-            ViewData.Add("FavRet", retailers);
-            return View();
+            Favorites favs = new Favorites();
+            favs.Locations = await _locContext.GetFavLocations(user.ID);
+            favs.Retailers = await _retContext.GetFavRetailers(user.ID);
+            return View(favs);
         }
     }
 }

@@ -8,6 +8,6 @@ namespace RimrockMVC.Models.Interfaces
     public interface IFavLocationManager
     {
         Task CreateFavLocation(FavLocation favLocation);
-        Task<List<FavLocation>> GetFavLocations();
+        Task<List<FavLocation>> GetFavLocations(int id);
     }
 }

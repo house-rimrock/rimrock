@@ -23,9 +23,10 @@ namespace RimrockMVC.Models.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<FavLocation>> GetFavLocations()
+        public async Task<List<FavLocation>> GetFavLocations(int id)
         {
-            return await _context.FavLocations.ToListAsync();
+            return await _context.FavLocations.Where(fl => fl.UserId == id).ToListAsync();
+
         }
     }
 }
