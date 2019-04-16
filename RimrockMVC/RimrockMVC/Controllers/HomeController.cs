@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RimrockMVC.Models;
 using RimrockMVC.Models.Interfaces;
 
@@ -17,15 +18,20 @@ namespace RimrockMVC.Controllers
             _context = context;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
-
-        public async Task<IActionResult> Signin(string username)
+        
+        [HttpPost]
+        public async Task<IActionResult> Index(string Name)
         {
-            User user = await _context.GetUser(username);
-            return RedirectToAction("Index", "Favorite", new { User = user });
+            User user = await _context.GetUser(Name);
+            TempData.Clear();
+            TempData.Add("User", JsonConvert.SerializeObject(user));
+            TempData.Keep("User");
+            return RedirectToAction("Index", "Favorite");
         }
     }
 }

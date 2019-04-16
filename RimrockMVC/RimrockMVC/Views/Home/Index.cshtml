@@ -10,9 +10,9 @@
     <body>
         <div>
             <h1>Test!</h1>
-            <form asp-action="Signin">
-                <label for="username">Username</label>
-                <input type="text" name="username" required />
+            <form method="post">
+                <label asp-for="Name">Username</label>
+                <input type="text" name="Name" required />
                 <input type="submit" value="Signin" />
             </form>
         </div>

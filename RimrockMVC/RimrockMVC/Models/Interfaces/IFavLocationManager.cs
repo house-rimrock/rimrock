@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace RimrockMVC.Models.Interfaces
 {
-    interface IFavLocationManager
+    public interface IFavLocationManager
     {
         Task CreateFavLocation(FavLocation favLocation);
-        Task<IEnumerable<FavLocation>> GetFavLocations();
+        Task<List<FavLocation>> GetFavLocations();
     }
 }

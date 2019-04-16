@@ -38,12 +38,12 @@ namespace RimrockMVC
         {
             string connectionString = Environment.IsDevelopment()
                 ? Configuration["ConnectionString:Default"]
-                : Configuration["ConnectionString:Production"];
+                : Configuration["ConnectionStrings:Production"];
             services.AddMvc();
             services.AddDbContext<RimrockDBContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IUserManager, UserService>();
-            //services.AddScoped<IRetailerManager, RetailerService>();
-            //services.AddScoped<ILocationManager, LocationService>();
+            services.AddScoped<IFavRetailerManager, FavRetailerService>();
+            services.AddScoped<IFavLocationManager, FavLocationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,10 +65,10 @@ namespace RimrockMVC
             // Allows use of files in wwwroot folder
             app.UseStaticFiles();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            // app.Run(async (context) =>
+            // {
+            //     await context.Response.WriteAsync("Hello World!");
+            // });
         }
     }
 }
