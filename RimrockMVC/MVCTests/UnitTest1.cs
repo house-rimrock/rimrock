@@ -107,5 +107,50 @@ namespace MVCTests
         /*--------------------------
         | FavRetailerService Tests |
         --------------------------*/
+
+        [Fact]
+        public async void CanCreateFavRetailer()
+        {
+            DbContextOptions<RimrockDBContext> options =
+                new DbContextOptionsBuilder<RimrockDBContext>()
+                .UseInMemoryDatabase("CanCreateFavRetailer").Options;
+
+            using (RimrockDBContext context = new RimrockDBContext(options))
+            {
+                FavRetailerService service = new FavRetailerService(context);
+                FavRetailer retailer = new FavRetailer() { Name = "REI" };
+                await service.CreateFavRetailer(retailer);
+
+                FavRetailer result = context.FavRetailers.Where(fr => fr.Name == "REI").FirstOrDefault();
+
+                Assert.Equal(retailer.Name, result.Name);
+            }
+        }
+
+        [Fact]
+        public async void CanGetFavRetailers()
+        {
+            DbContextOptions<RimrockDBContext> options =
+                new DbContextOptionsBuilder<RimrockDBContext>()
+                .UseInMemoryDatabase("CanGetFavRetailer").Options;
+
+            using (RimrockDBContext context = new RimrockDBContext(options))
+            {
+                List<FavRetailer> retailers = new List<FavRetailer>()
+                {
+                    new FavRetailer() {Name = "Rick's Rock Rodeo"},
+                    new FavRetailer() {Name = "Bill's Bouldering Boutique"},
+                    new FavRetailer() {Name = "Ropez 'n' Thangz"}
+                };
+
+                await context.FavRetailers.AddRangeAsync(retailers);
+                await context.SaveChangesAsync();
+                FavRetailerService service = new FavRetailerService(context);
+
+                var result = await service.GetFavRetailers();
+
+                Assert.Equal(3, result.Count());
+            }
+        }
     }
 }
