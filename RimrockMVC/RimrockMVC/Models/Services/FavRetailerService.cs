@@ -23,7 +23,7 @@ namespace RimrockMVC.Models.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<FavRetailer>> GetFavRetailers()
+        public async Task<List<FavRetailer>> GetFavRetailers()
         {
             return await _context.FavRetailers.ToListAsync();
         }
