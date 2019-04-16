@@ -1,83 +1,50 @@
-﻿/* Colors */
-.bg-col0 {
-    background-color: #222629;
-}
-.txt-col0 {
-    color: #222629;
-}
-.bg-col1 {
-    background-color: #474B4F;
-}
-.txt-col1 {
-    color: #474B4F;
-}
-.bg-col2 {
-    background-color: #6B6E70;
-}
-.txt-col2 {
-    color: #6B6E70;
-}
-.bg-col3 {
-    background-color: #D2D6D8;
-}
-.txt-col3 {
-    color: #D2D6D8;
-}
-.bg-col4 {
-    background-color: #20B9BF;
-}
-.txt-col4 {
-    color: #20B9BF;
-}
-.bg-col5 {
-    background-color: #2AF6FF;
-}
-.txt-col5 {
-    color: #2AF6FF;
-}
+﻿header {
+  background-color: #20B9BF;
+  width: 100vw;
+  height: 6vh;
+  min-height: 48px;
+  line-height: 6vh; }
 
-/* Fonts */
-.logo {
-    font-family: 'Trade Winds';
-}
+#logo-area {
+  background-color: #2AF6FF;
+  color: #222629;
+  width: 20vw;
+  height: 100%;
+  min-width: 144px;
+  text-align: center;
+  font-size: 3vh; }
 
-/* Sidebar */
+main {
+  position: absolute;
+  width: 100vw;
+  height: 94vh; }
+
+#sidebar-toggle {
+  float: left;
+  padding-left: 8px; }
+
 #sidebar {
-    float: left;
-    width: 20vw;
-    height: 100vh;
-}
-#sidebar-top {
-    width: 100%;
-    height: 6vh;
-    font-size: 4vh;
-    margin-bottom: 3vh;
-    line-height: 6vh;
-    text-align: center;
-}
-.sidebar-btn {
-    width: 85%;
-    height: 5vh;
-    text-align: center;
-    line-height: 5vh;
-    margin: auto;
-    margin-bottom: .7vh;
-}
+  float: left;
+  display: none;
+  background-color: #6B6E70;
+  width: 20vw;
+  min-width: 144px;
+  height: 100%; }
 
-#topbar {
-    width: 100%;
-    height: 6vh;
-}
-#login-btn {
-    text-align: center;
-    border-radius: 1.5vh;
-    float: right;
-    height: 3vh;
-    width: 6vw;
-    margin: 1.5vh;
-    line-height: 3vh;
-}
 #renderbody {
-    width: 100%;
-    height: 94vh;
-}
+  padding: 8px;
+  color: #D2D6D8;
+  width: 100%;
+  height: 100%;
+  background-color: #474B4F; }
+
+#logo {
+  font-family: Rakkas, cursive; }
+
+@media all and (max-height: 800) {
+  header {
+    line-height: 48px; }
+  main {
+    height: 100vh-get-vh(48px); }
+  #logo-area {
+    font-size: 24px; } }
