@@ -37,7 +37,7 @@ namespace RimrockMVC
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = Environment.IsDevelopment()
-                ? Configuration["ConnectionString:Default"]
+                ? Configuration["ConnectionStrings:Default"]
                 : Configuration["ConnectionStrings:Production"];
             services.AddMvc();
             services.AddDbContext<RimrockDBContext>(options => options.UseSqlServer(connectionString));
