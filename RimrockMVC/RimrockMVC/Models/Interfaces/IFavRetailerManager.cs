@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace RimrockMVC.Models.Interfaces
 {
-    interface IFavRetailerManager
+    public interface IFavRetailerManager
     {
         Task CreateFavRetailer(FavRetailer favRetailer);
-        Task<IEnumerable<FavRetailer>> GetFavRetailers();
+        Task<List<FavRetailer>> GetFavRetailers(int id);
     }
 }

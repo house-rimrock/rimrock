@@ -23,9 +23,9 @@ namespace RimrockMVC.Models.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<FavRetailer>> GetFavRetailers()
+        public async Task<List<FavRetailer>> GetFavRetailers(int id)
         {
-            return await _context.FavRetailers.ToListAsync();
+            return await _context.FavRetailers.Where(fr => fr.UserId == id).ToListAsync();
         }
     }
 }
