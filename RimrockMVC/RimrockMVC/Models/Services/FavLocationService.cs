@@ -17,16 +17,25 @@ namespace RimrockMVC.Models.Services
             _context = context;
         }
 
+		/// <summary>
+		/// Saves new favorited location to DB
+		/// </summary>
+		/// <param name="favLocation">favorited location to save</param>
+		/// <returns>Task</returns>
         public async Task CreateFavLocation(FavLocation favLocation)
         {
             await _context.FavLocations.AddAsync(favLocation);
             await _context.SaveChangesAsync();
         }
 
+		/// <summary>
+		/// Gets favorited locations as list
+		/// </summary>
+		/// <param name="userID">user ID</param>
+		/// <returns>List of favorited locations</returns>
         public async Task<List<FavLocation>> GetFavLocations(int userID)
         {
             return await _context.FavLocations.Where(fl => fl.UserId == userID).ToListAsync();
-
         }
     }
 }

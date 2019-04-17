@@ -598,16 +598,86 @@ namespace XUnitTestRimrockMVC
 				newFavLocation.Name = "Grand Teton";
 				newFavLocation.Cost = "$$";
 
-				// Act
 				FavLocationService favLocService = new FavLocationService(context);
 
 				await context.FavLocations.AddAsync(newFavLocation);
 				await context.SaveChangesAsync();
 
+				// Act
 				List<FavLocation> favLocationListFromDb = await favLocService.GetFavLocations(newFavLocation.UserId);
 
+				// Boolean test (needed for Theory-type unit test)
 				bool actualBool = false; 
 				if (numToTest == favLocationListFromDb[0].UserId)
+				{
+					actualBool = true;
+				}
+
+				// Assert
+				Assert.Equal(actualBool, expectedBool);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can save a new favorite retailer to DB
+		/// </summary>
+		[Fact]
+		public async void CreateFavRetailer_CanAddNewFavRetailerInDatabase()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanCreateNewFavRetailer").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavRetailer favRetailer = new FavRetailer();
+				favRetailer.Id = 1;
+				favRetailer.Name = "Second Ascents";
+				favRetailer.Specialty = "Climbing";
+
+				// Act
+				FavRetailerService favRetailerService = new FavRetailerService(context);
+
+				await favRetailerService.CreateFavRetailer(favRetailer);
+
+				FavRetailer favRetailersFromDb = await context.FavRetailers
+											.FirstOrDefaultAsync(fl => fl.Name == favRetailer.Name);
+
+				// Assert
+				Assert.Equal(favRetailersFromDb, favRetailer);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can get favorite retailer by ID from DB
+		/// </summary>
+		[Theory]
+		[InlineData(1, 4, 4, true)]
+		[InlineData(2, 7, 5, false)]
+		public async void GetFavRetailer_CanGetFavRetailerById(int numForFavRetailerId, int numToTest, int numForUserId, bool expectedBool)
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanGetFavRetailerById").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavRetailer newFavRetailer = new FavRetailer();
+				newFavRetailer.Id = numForFavRetailerId;
+				newFavRetailer.UserId = numForUserId;
+				newFavRetailer.RegionId = 2;
+				newFavRetailer.Name = "Grand Teton";
+				newFavRetailer.Specialty = "Mountaineering";
+
+				FavRetailerService favRetailerService = new FavRetailerService(context);
+
+				await context.FavRetailers.AddAsync(newFavRetailer);
+				await context.SaveChangesAsync();
+
+				// Act
+				List<FavRetailer> favRetailerListFromDb = await favRetailerService.GetFavRetailers(newFavRetailer.UserId);
+
+				// Boolean test (needed for Theory-type unit test)
+				bool actualBool = false;
+				if (numToTest == favRetailerListFromDb[0].UserId)
 				{
 					actualBool = true;
 				}
