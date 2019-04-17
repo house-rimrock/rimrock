@@ -7,5 +7,6 @@ namespace RimrockMVC.Controllers
 {
     public class SearchLocationController
     {
+
     }
 }
