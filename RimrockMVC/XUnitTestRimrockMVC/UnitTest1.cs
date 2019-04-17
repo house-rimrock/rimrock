@@ -11,13 +11,12 @@ namespace XUnitTestRimrockMVC
 {
     public class UnitTest1
     {
-        /////////////////////////////////
-        // Test getters and setters
-        /////////////////////////////////
 
-        // MODELS THAT REPLICATE API MODELS (FOR PARSING JSON FROM API)
+		///////////////////////////////////////////
+		// Test auto-implemented properties for Region class
+		///////////////////////////////////////////
 
-        [Fact]
+		[Fact]
         public void CanGetRegionID()
         {
             // Arrange
@@ -63,7 +62,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal("The Okanogan, WA", region.Name);
         }
 
-        [Fact]
+
+		///////////////////////////////////////////
+		// Test auto-implemented properties for Location class
+		///////////////////////////////////////////
+
+		[Fact]
         public void CanGetLocationID()
         {
             // Arrange
@@ -132,7 +136,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal(2, location.RegionID);
         }
 
-        [Fact]
+
+		///////////////////////////////////////////
+		// Test auto-implemented properties for Retailer class
+		///////////////////////////////////////////
+		
+		[Fact]
         public void CanGetRetailerID()
         {
             // Arrange
@@ -201,9 +210,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal(2, retailer.RegionID);
         }
 
-        // Main models
 
-        [Fact]
+		///////////////////////////////////////////
+		// Test auto-implemented properties for FavRetailer class
+		///////////////////////////////////////////
+
+		[Fact]
         public void CanGetFavRetailerID()
         {
             // Arrange
@@ -318,7 +330,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal("Rocks", favRetailer.Specialty);
         }
 
-        [Fact]
+
+		///////////////////////////////////////////
+		// Test auto-implemented properties for User class
+		///////////////////////////////////////////
+		///
+		[Fact]
         public void CanGetUserId()
         {
             // Arrange
@@ -364,9 +381,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal("Andrew", user.Name);
         }
 
-        ///////////////////////////////////////////
 
-        [Fact]
+		///////////////////////////////////////////
+		// Test auto-implemented properties for FavLocation class
+		///////////////////////////////////////////
+
+		[Fact]
         public void CanGetFavLoctionID()
         {
             // Arrange
@@ -471,7 +491,6 @@ namespace XUnitTestRimrockMVC
             // Arrange
             FavLocation favLocation = new FavLocation();
 
-
             // Assert
             Assert.Null(favLocation.Cost);
         }
@@ -483,10 +502,10 @@ namespace XUnitTestRimrockMVC
             FavLocation favLocation = new FavLocation();
 
             // Act
-            favLocation.Cost = "Rocks";
+            favLocation.Cost = "$$";
 
             // Assert
-            Assert.Equal("Rocks", favLocation.Cost);
+            Assert.Equal("$$", favLocation.Cost);
         }
 
 
@@ -686,7 +705,5 @@ namespace XUnitTestRimrockMVC
 				Assert.Equal(actualBool, expectedBool);
 			};
 		}
-
-
 	}
 }
