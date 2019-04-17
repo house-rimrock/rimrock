@@ -581,8 +581,10 @@ namespace XUnitTestRimrockMVC
 		/// <summary>
 		/// Tests whether can get favorite location by ID from DB
 		/// </summary>
-		[Fact]
-		public async void GetFavLocation_CanGetFavLocationById()
+		[Theory]
+		[InlineData(1, 4, 4, true)]
+		[InlineData(2, 7, 5, false)]
+		public async void GetFavLocation_CanGetFavLocationById(int numForFavLocId, int numToTest, int numForUserId, bool expectedBool)
 		{
 			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanGetFavLocById").Options;
 
@@ -590,19 +592,28 @@ namespace XUnitTestRimrockMVC
 			{
 				// Arrange
 				FavLocation newFavLocation = new FavLocation();
-				newFavLocation.Id = 1;
+				newFavLocation.Id = numForFavLocId;
+				newFavLocation.UserId = numForUserId;
+				newFavLocation.RegionId = 2;
 				newFavLocation.Name = "Grand Teton";
 				newFavLocation.Cost = "$$";
 
 				// Act
 				FavLocationService favLocService = new FavLocationService(context);
+
 				await context.FavLocations.AddAsync(newFavLocation);
 				await context.SaveChangesAsync();
 
-				List<FavLocation> favLocationListFromDb = await favLocService.GetFavLocations(1);
+				List<FavLocation> favLocationListFromDb = await favLocService.GetFavLocations(newFavLocation.UserId);
+
+				bool actualBool = false; 
+				if (numToTest == favLocationListFromDb[0].UserId)
+				{
+					actualBool = true;
+				}
 
 				// Assert
-				Assert.
+				Assert.Equal(actualBool, expectedBool);
 			};
 		}
 
