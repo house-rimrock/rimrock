@@ -1,1 +1,24 @@
-﻿
+﻿@model RimrockMVC.Models.ViewModels.Search<RimrockMVC.Models.APImodels.Location>
+
+@{
+    ViewData["Title"] = "Browse Locations";
+}
+
+<!--TODO: Search form w/ drop-down list-->
+
+@if (Model.Results.Count == 0)
+{
+    <h1>No locations found!</h1>
+}
+else
+{
+    <ul>
+        @foreach (var location in Model.Results)
+        {
+            <li>
+                @location.Name
+                <!--TODO: Add/Remove favorite button-->
+            </li>
+        }
+    </ul>
+}
