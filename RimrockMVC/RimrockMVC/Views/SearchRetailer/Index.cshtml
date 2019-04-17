@@ -1,1 +1,21 @@
-﻿
+﻿@model RimrockMVC.Models.ViewModels.Search<RimrockMVC.Models.APImodels.Retailer>
+
+@{
+    ViewData["Title"] = "Browse Retailers";
+}
+
+<!--TODO: Search form w/ drop-down list-->
+
+@if (Model.Results.Count == 0)
+{
+    <h1>No retailers found!</h1>
+}
+<ul>
+    @foreach (var retailer in Model.Results)
+    {
+        <li>
+            @retailer.Name
+            <!--TODO: Add/Remove favorite button-->
+        </li>
+    }
+</ul>

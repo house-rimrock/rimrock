@@ -97,7 +97,7 @@ namespace RimrockMVC
             {
                 client.BaseAddress = new Uri(url);
 
-                HttpResponseMessage response = await client.GetAsync($"region/{id}");
+                HttpResponseMessage response = await client.GetAsync($"location/{id}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -105,6 +105,19 @@ namespace RimrockMVC
                     Location location = JsonConvert.DeserializeObject<Location>(responseString);
                     return location;
                 }
+                return null;
+            }
+        }
+
+        public static async Task<List<Location>> GetLocationsByRegionAsync(int regionId)
+        {
+            List<Location> allLocations = await GetLocationsAsync();
+            try
+            {
+                return allLocations.Where(l => l.RegionID == regionId).ToList();
+            }
+            catch (ArgumentNullException)
+            {
                 return null;
             }
         }
@@ -144,6 +157,19 @@ namespace RimrockMVC
                     Retailer retailer = JsonConvert.DeserializeObject<Retailer>(responseString);
                     return retailer;
                 }
+                return null;
+            }
+        }
+
+        public static async Task<List<Retailer>> GetRetailersByRegionAsync(int regionId)
+        {
+            List<Retailer> allRetailers = await GetRetailersAsync();
+            try
+            {
+                return allRetailers.Where(r => r.RegionID == regionId).ToList();
+            }
+            catch (ArgumentNullException)
+            {
                 return null;
             }
         }
