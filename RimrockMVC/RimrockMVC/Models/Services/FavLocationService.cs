@@ -19,13 +19,13 @@ namespace RimrockMVC.Models.Services
 
         public async Task CreateFavLocation(FavLocation favLocation)
         {
-            _context.FavLocations.Add(favLocation);
+            await _context.FavLocations.AddAsync(favLocation);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<FavLocation>> GetFavLocations(int id)
+        public async Task<List<FavLocation>> GetFavLocations(int userID)
         {
-            return await _context.FavLocations.Where(fl => fl.UserId == id).ToListAsync();
+            return await _context.FavLocations.Where(fl => fl.UserId == userID).ToListAsync();
 
         }
     }

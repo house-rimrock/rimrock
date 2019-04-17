@@ -1,6 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using RimrockMVC.Data;
 using RimrockMVC.Models;
 using RimrockMVC.Models.APImodels;
+using RimrockMVC.Models.Services;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace XUnitTestRimrockMVC
@@ -11,7 +15,7 @@ namespace XUnitTestRimrockMVC
         // Test getters and setters
         /////////////////////////////////
 
-        // API MODELS
+        // MODELS THAT REPLICATE API MODELS (FOR PARSING JSON FROM API)
 
         [Fact]
         public void CanGetRegionID()
@@ -330,7 +334,6 @@ namespace XUnitTestRimrockMVC
             // Arrange
             User user = new User();
 
-
             // Act
             user.ID = 3;
 
@@ -479,7 +482,6 @@ namespace XUnitTestRimrockMVC
             // Arrange
             FavLocation favLocation = new FavLocation();
 
-
             // Act
             favLocation.Cost = "Rocks";
 
@@ -487,5 +489,123 @@ namespace XUnitTestRimrockMVC
             Assert.Equal("Rocks", favLocation.Cost);
         }
 
-    }
+
+		/////////////////////////////////////
+		// Tests for MVC app CRUD operations
+		/////////////////////////////////////
+
+		/// <summary>
+		/// Tests whether can create a new user in DB
+		/// </summary>
+		[Fact]
+		public async void CreateUser_CanCreateSingleUser()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanCreateSingleUser").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				User newUser = new User();
+				newUser.ID = 1;
+				newUser.Name = "Phil Werner";
+
+				// Act
+				UserService userService = new UserService(context);
+
+				await userService.CreateUser(newUser);
+
+				User userFromDb = await context.Users
+									.FirstOrDefaultAsync(u => u.Name == newUser.Name);
+
+				// Assert
+				Assert.Equal(userFromDb, newUser);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can get user by name from DB
+		/// </summary>
+		[Fact]
+		public async void GetUser_CanGetSingleUser()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanGetSingleUserByName").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				User newUser = new User();
+				newUser.ID = 1;
+				newUser.Name = "Jason Burns";
+
+				// Act
+				UserService userService = new UserService(context);
+				await context.Users.AddAsync(newUser);
+				await context.SaveChangesAsync();
+
+				User userFromDb = await userService.GetUser(newUser.Name);
+
+				// Assert
+				Assert.Equal(userFromDb, newUser);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can save a new favorite location to DB
+		/// </summary>
+		[Fact]
+		public async void CreateFavLocation_CanAddNewFavLocationInDatabase()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanCreateNewFavLocation").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavLocation favLocation = new FavLocation();
+				favLocation.Id = 1;
+				favLocation.Name = "Yosemite";
+				favLocation.Cost = "$$";
+
+				// Act
+				FavLocationService favLocService = new FavLocationService(context);
+
+				await favLocService.CreateFavLocation(favLocation);
+
+				FavLocation favLocationFromDb = await context.FavLocations
+											.FirstOrDefaultAsync(fl => fl.Name == favLocation.Name);
+
+				// Assert
+				Assert.Equal(favLocationFromDb, favLocation);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can get favorite location by ID from DB
+		/// </summary>
+		[Fact]
+		public async void GetFavLocation_CanGetFavLocationById()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanGetFavLocById").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavLocation newFavLocation = new FavLocation();
+				newFavLocation.Id = 1;
+				newFavLocation.Name = "Grand Teton";
+				newFavLocation.Cost = "$$";
+
+				// Act
+				FavLocationService favLocService = new FavLocationService(context);
+				await context.FavLocations.AddAsync(newFavLocation);
+				await context.SaveChangesAsync();
+
+				List<FavLocation> favLocationListFromDb = await favLocService.GetFavLocations(1);
+
+				// Assert
+				Assert.
+			};
+		}
+
+
+	}
 }

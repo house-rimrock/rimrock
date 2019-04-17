@@ -19,7 +19,7 @@ namespace RimrockMVC.Models.Services
 
         public async Task CreateFavRetailer(FavRetailer favRetailer)
         {
-            _context.FavRetailers.Add(favRetailer);
+            await _context.FavRetailers.AddAsync(favRetailer);
             await _context.SaveChangesAsync();
         }
 
