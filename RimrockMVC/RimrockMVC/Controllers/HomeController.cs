@@ -21,7 +21,10 @@ namespace RimrockMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+			//TODO remove line below once we've got a better way of testing success of call to API
+			// ...becuase it's just there so we can put a breakpoint on the GetRegionsAsync() method and run it
 			await ApiClient.GetRegionsAsync();
+
 			return View();
         }
         

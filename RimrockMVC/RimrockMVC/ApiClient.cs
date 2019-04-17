@@ -18,10 +18,6 @@ namespace RimrockMVC
 		/// <returns>JSON object containing list of all Regions in DB</returns>
 		public static async Task<List<Region>> GetRegionsAsync()
 		{
-
-			//TODO Try to make Http client static instead of below approach
-
-
 			using (HttpClient client = new HttpClient())
 			{
 				client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
@@ -31,7 +27,10 @@ namespace RimrockMVC
 				if (response.IsSuccessStatusCode)
 				{
 					var responseAsString = await response.Content.ReadAsStringAsync();
+
+					// List<Region> is return type of API-side GET method for getting an individual Region object
 					List<Region> parsedRegions = JsonConvert.DeserializeObject<List<Region>>(responseAsString);
+
 					return parsedRegions;
 				}
 				return null;
@@ -44,10 +43,6 @@ namespace RimrockMVC
 		/// <returns>JSON object containing specified Region</returns>
 		public static async Task<JObject> GetRegionsAsync(int id)
 		{
-
-			//TODO Try to make Http client static instead of below approach
-
-
 			using (HttpClient client = new HttpClient())
 			{
 				client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
