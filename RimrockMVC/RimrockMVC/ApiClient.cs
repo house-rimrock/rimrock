@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RimrockMVC.Models.APImodels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace RimrockMVC
 	{
 
 		/// <summary>
-		/// Get list of Regions as JObject
+		/// Gets a list of Regions
 		/// </summary>
 		/// <returns>JSON object containing list of all Regions in DB</returns>
-		public static async Task<JObject> GetRegionsAsync()
+		public static async Task<List<Region>> GetRegionsAsync()
 		{
 
 			//TODO Try to make Http client static instead of below approach
@@ -25,18 +26,20 @@ namespace RimrockMVC
 			{
 				client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
 
-				HttpResponseMessage response = await client.GetAsync("regions/");
+				HttpResponseMessage response = await client.GetAsync("region/");
 
 				if (response.IsSuccessStatusCode)
 				{
-					return JObject.Parse(await response.Content.ReadAsStringAsync());
+					var responseAsString = await response.Content.ReadAsStringAsync();
+					List<Region> parsedRegions = JsonConvert.DeserializeObject<List<Region>>(responseAsString);
+					return parsedRegions;
 				}
 				return null;
 			}
 		}
 
 		/// <summary>
-		/// Get individual Region as JObject
+		/// Gets an individual Region
 		/// </summary>
 		/// <returns>JSON object containing specified Region</returns>
 		public static async Task<JObject> GetRegionsAsync(int id)

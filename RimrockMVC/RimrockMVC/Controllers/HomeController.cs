@@ -19,9 +19,10 @@ namespace RimrockMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+			await ApiClient.GetRegionsAsync();
+			return View();
         }
         
         [HttpPost]
