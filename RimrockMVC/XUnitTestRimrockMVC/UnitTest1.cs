@@ -714,6 +714,38 @@ namespace XUnitTestRimrockMVC
 			};
 		}
 
+		/// <summary>
+		/// Tests whether can delete a saved favorite location from DB
+		/// </summary>
+		[Fact]
+		public async void DeleteFavLocation_CanDeleteFavLocationById()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanDeleteFavLocById").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavLocation newFavLocation = new FavLocation();
+				newFavLocation.Id = 1;
+				newFavLocation.UserId = 1;
+				newFavLocation.RegionId = 2;
+				newFavLocation.Name = "Grand Teton";
+				newFavLocation.Cost = "$$";
+
+				FavLocationService favLocService = new FavLocationService(context);
+
+				await context.FavLocations.AddAsync(newFavLocation);
+				await context.SaveChangesAsync();
+
+				// Act
+				await favLocService.DeleteFavLocation(1);
+
+				List<FavLocation> listOfLocationsInDb = await favLocService.GetFavLocations(newFavLocation.UserId);
+
+				// Assert
+				Assert.Empty(listOfLocationsInDb);
+			};
+		}
 
 		/////////////////////////////////////
 		// Tests for hitting API routes from MVC app
