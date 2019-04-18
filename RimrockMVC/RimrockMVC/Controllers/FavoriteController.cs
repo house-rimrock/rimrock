@@ -21,7 +21,10 @@ namespace RimrockMVC.Controllers
             _locContext = locContext;
             _retContext = retContext;
         }
-
+        /// <summary>
+        /// Hits the MVC database for favorites and adds them to a Favorites View Model before grabbing the view and returning it.
+        /// </summary>
+        /// <returns>The Favorites Index View containing a Favorites View Model</returns>
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -32,7 +35,11 @@ namespace RimrockMVC.Controllers
             favs.Retailers = await _retContext.GetFavRetailers(user.ID);
             return View(favs);
         }
-
+        /// <summary>
+        /// AddFavLocation takes a location ID and gets it from the API then adds a favorite to the MVC database
+        /// </summary>
+        /// <param name="locationId">The Location ID</param>
+        /// <returns>Task</returns>
         [HttpPost]
         public async Task AddFavLocation(string locationId)
         {
@@ -48,7 +55,11 @@ namespace RimrockMVC.Controllers
                 LocationId = location.ID
             });
         }
-
+        /// <summary>
+        /// AddFavRetailer takes a retailer ID and gets it from the API then adds a favorite to the MVC database
+        /// </summary>
+        /// <param name="retailerId">The ID of the retailer being favorited</param>
+        /// <returns>Task</returns>
         [HttpPost]
         public async Task AddFavRetailer(string retailerId)
         {

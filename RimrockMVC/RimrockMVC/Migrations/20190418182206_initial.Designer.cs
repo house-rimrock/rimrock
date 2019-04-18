@@ -9,7 +9,7 @@ using RimrockMVC.Data;
 namespace RimrockMVC.Migrations
 {
     [DbContext(typeof(RimrockDBContext))]
-    [Migration("20190418172830_initial")]
+    [Migration("20190418182206_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
