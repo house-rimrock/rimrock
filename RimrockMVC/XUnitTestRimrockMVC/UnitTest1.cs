@@ -5,6 +5,9 @@ using RimrockMVC.Models.APImodels;
 using RimrockMVC.Models.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using Xunit;
 
 namespace XUnitTestRimrockMVC
@@ -603,7 +606,13 @@ namespace XUnitTestRimrockMVC
 		[Theory]
 		[InlineData(1, 4, 4, true)]
 		[InlineData(2, 7, 5, false)]
-		public async void GetFavLocation_CanGetFavLocationById(int numForFavLocId, int numToTest, int numForUserId, bool expectedBool)
+		public async void GetFavLocation_CanGetFavLocationById
+			(
+			int numForFavLocId,
+			int numToTest,
+			int numForUserId,
+			bool expectedBool
+			)
 		{
 			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanGetFavLocById").Options;
 
@@ -703,6 +712,71 @@ namespace XUnitTestRimrockMVC
 
 				// Assert
 				Assert.Equal(actualBool, expectedBool);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can delete a saved favorite location from DB
+		/// </summary>
+		[Fact]
+		public async void DeleteFavLocation_CanDeleteFavLocationById()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanDeleteFavLocById").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavLocation newFavLocation = new FavLocation();
+				newFavLocation.Id = 1;
+				newFavLocation.UserId = 1;
+				newFavLocation.RegionId = 2;
+				newFavLocation.Name = "Grand Teton";
+				newFavLocation.Cost = "$$";
+
+				FavLocationService favLocService = new FavLocationService(context);
+
+				await context.FavLocations.AddAsync(newFavLocation);
+				await context.SaveChangesAsync();
+
+				// Act
+				await favLocService.DeleteFavLocation(1);
+
+				List<FavLocation> listOfLocationsInDb = await context.FavLocations.Where(fl => fl.UserId == newFavLocation.Id).ToListAsync(); 
+					
+				// Assert
+				Assert.Empty(listOfLocationsInDb);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can delete a saved favorite location from DB
+		/// </summary>
+		[Fact]
+		public async void DeleteFavRetailer_CanDeleteFavRetailerById()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanDeleteFavRetailerById").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavRetailer newFavRetailer = new FavRetailer();
+				newFavRetailer.Id = 1;
+				newFavRetailer.Name = "Second Ascents";
+				newFavRetailer.Specialty = "Climbing";
+
+				// Act
+				FavRetailerService favRetailerService = new FavRetailerService(context);
+
+				await context.FavRetailers.AddAsync(newFavRetailer);
+				await context.SaveChangesAsync();
+
+				// Act
+				await favRetailerService.DeleteFavRetailer(1);
+
+				List<FavRetailer> listOfRetailersInDb = await context.FavRetailers.Where(fr => fr.UserId == newFavRetailer.Id).ToListAsync();
+
+				// Assert
+				Assert.Empty(listOfRetailersInDb);
 			};
 		}
 	}
