@@ -4,7 +4,19 @@
     ViewData["Title"] = "Browse Locations";
 }
 
-<!--TODO: Search form w/ drop-down list-->
+<!--TODO: Test drop-down-->
+<form method="get">
+    <label asp-for="region">Select a region</label>
+    <select name="region">
+        @{
+            foreach (var region in Model.Regions)
+            {
+                <option value="@region.ID">@region.Name</option>
+            }
+        }
+    </select>
+    <input type="submit" value="Filter" />
+</form>
 
 @if (Model.Results.Count == 0)
 {
@@ -19,10 +31,9 @@ else
         {
             <li>
                 @location.Name
-                <!--TODO: Add/Remove favorite button-->
-                @if (!favIds.Contains(location.ID) && ViewData["User"] != null)
+                <!--TODO: Don't display add favorites button if location is already favorited-->
+                @if (ViewData["User"] != null)
                 {
-                    @*<a id="@location.ID" class="favadd">Add to favorites</a>*@
                     <a onclick="addFavorite(@location.ID);" class="favadd">Add to favorites</a>
                 }
             </li>

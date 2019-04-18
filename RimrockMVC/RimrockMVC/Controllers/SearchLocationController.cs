@@ -13,11 +13,11 @@ namespace RimrockMVC.Controllers
 {
     public class SearchLocationController : Controller
     {
-        private readonly IFavLocationManager Manager;
+        private readonly IFavLocationManager _manager;
 
         public SearchLocationController(IFavLocationManager manager)
         {
-            Manager = manager;
+            _manager = manager;
         }
 
         [HttpGet]
@@ -35,16 +35,13 @@ namespace RimrockMVC.Controllers
             {
                 string userstr = TempData.Peek("User").ToString();
                 User user = JsonConvert.DeserializeObject<User>(userstr);
-                List<FavLocation> favs = await Manager.GetFavLocations(user.ID);
+                List<FavLocation> favs = await _manager.GetFavLocations(user.ID);
                 ViewData["User"] = user.Name;
-                ViewData["FavIds"] = favs.Select(f => f.Id).ToList();
             }
             catch
             {
-                ViewData["FavIds"] = new List<int>();
             }
             
-
             return View(search);
         }
     }
