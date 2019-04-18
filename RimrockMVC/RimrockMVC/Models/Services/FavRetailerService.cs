@@ -28,12 +28,23 @@ namespace RimrockMVC.Models.Services
             await _context.SaveChangesAsync();
         }
 
-		/// <summary>
-		/// Gets favorited retailers as list
-		/// </summary>
-		/// <param name="userID">user id</param>
-		/// <returns>List of user's favorited retailers</returns>
-		public async Task<List<FavRetailer>> GetFavRetailers(int userID)
+        /// <summary>
+        /// Removes a specific favorite from the database
+        /// </summary>
+        /// <param name="id">The Id of the location to remove</param>
+        /// <returns>Task</returns>
+        public async Task DeleteFavRetailer(int id)
+        {
+            _context.FavRetailers.Remove(await _context.FavRetailers.FindAsync(id));
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Gets favorited retailers as list
+        /// </summary>
+        /// <param name="userID">user id</param>
+        /// <returns>List of user's favorited retailers</returns>
+        public async Task<List<FavRetailer>> GetFavRetailers(int userID)
         {
             return await _context.FavRetailers.Where(fr => fr.UserId == userID).ToListAsync();
         }

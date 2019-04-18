@@ -8,6 +8,7 @@
 <form method="get">
     <label asp-for="region">Select a region</label>
     <select name="region">
+        <option value="0">Remove Filter</option>
         @{
             foreach (var region in Model.Regions)
             {
@@ -32,7 +33,7 @@ else
             <li>
                 @retailer.Name
                 <!--TODO: Don't show favorite button if retailer is already favorited-->
-                @if (ViewData["User"] != null)
+                @if (ViewData["User"] != null && !Model.UserFavorites.Contains(retailer.ID))
                 {
                     <a onclick="addFavorite(@retailer.ID);" class="favadd">Add to favorites</a>
                 }
@@ -45,7 +46,7 @@ else
     $(document).ready(function () {
         $('.favadd').click(function (e) {
             e.preventDefault();
-            $(this).toggle();
+            $(this).remove();
         });
     });
 

@@ -9,5 +9,6 @@ namespace RimrockMVC.Models.Interfaces
     {
         Task CreateFavLocation(FavLocation favLocation);
         Task<List<FavLocation>> GetFavLocations(int id);
+        Task DeleteFavLocation(int id);
     }
 }
