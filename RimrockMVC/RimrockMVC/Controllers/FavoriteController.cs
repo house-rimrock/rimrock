@@ -75,5 +75,17 @@ namespace RimrockMVC.Controllers
                 RetailerId = retailer.ID
             });
         }
+
+        [HttpDelete]
+        public async Task RemoveFavLocation(string favLocationId)
+        {
+            await _locContext.DeleteFavLocation(int.Parse(favLocationId));
+        }
+
+        [HttpDelete]
+        public async Task RemoveFavRetailer(string favRetailerId)
+        {
+            await _retContext.DeleteFavRetailer(int.Parse(favRetailerId));
+        }
     }
 }
