@@ -9,5 +9,6 @@ namespace RimrockMVC.Models.Interfaces
     {
         Task CreateFavRetailer(FavRetailer favRetailer);
         Task<List<FavRetailer>> GetFavRetailers(int id);
+        Task DeleteFavRetailer(int id);
     }
 }
