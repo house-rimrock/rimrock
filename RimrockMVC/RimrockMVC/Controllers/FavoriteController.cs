@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RimrockMVC.Models;
+using RimrockMVC.Models.APImodels;
 using RimrockMVC.Models.Interfaces;
 using RimrockMVC.Models.ViewModels;
 
@@ -30,6 +31,21 @@ namespace RimrockMVC.Controllers
             favs.Locations = await _locContext.GetFavLocations(user.ID);
             favs.Retailers = await _retContext.GetFavRetailers(user.ID);
             return View(favs);
+        }
+
+        [HttpPost]
+        public async Task AddFavLocation(string locationId)
+        {
+            string userSer = TempData.Peek("User").ToString();
+            User user = JsonConvert.DeserializeObject<User>(userSer);
+            Location location = await ApiClient.GetLocationsAsync(int.Parse(locationId));
+            await _locContext.CreateFavLocation(new FavLocation
+            {
+                UserId = user.ID,
+                Cost = location.Cost,
+                Name = location.Name,
+                RegionId = location.RegionID
+            });
         }
     }
 }

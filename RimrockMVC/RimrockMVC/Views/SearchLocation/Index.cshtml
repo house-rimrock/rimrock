@@ -11,14 +11,43 @@
     <h1>No locations found!</h1>
 }
 else
-{
+{ 
+    var favIds = ViewData["FavIds"] as List<int>;
+
     <ul>
         @foreach (var location in Model.Results)
         {
             <li>
                 @location.Name
                 <!--TODO: Add/Remove favorite button-->
+                @if (!favIds.Contains(location.ID) && ViewData["User"] != null)
+                {
+                    @*<a id="@location.ID" class="favadd">Add to favorites</a>*@
+                    <a onclick="addFavorite(@location.ID);" class="favadd">Add to favorites</a>
+                }
             </li>
         }
     </ul>
 }
+
+<script>
+    $(document).ready(function () {
+        $('.favadd').click(function (e) {
+            e.preventDefault();
+            $(this).toggle();
+        });
+    });
+
+    function addFavorite(id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/favorite/addfavlocation',
+            datatype: 'json',
+            data: { locationId: id },
+            error: function () {
+                alert('Error');
+            }
+        });
+    }
+</script>

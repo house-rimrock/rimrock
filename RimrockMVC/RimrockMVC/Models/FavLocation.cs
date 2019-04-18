@@ -8,6 +8,7 @@ namespace RimrockMVC.Models
 {
     public class FavLocation
     {
+        [Key]
         public int Id { get; set; }
         public int UserId { get; set; }
         public int RegionId { get; set; }

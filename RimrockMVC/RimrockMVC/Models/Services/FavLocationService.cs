@@ -19,7 +19,7 @@ namespace RimrockMVC.Models.Services
 
         public async Task CreateFavLocation(FavLocation favLocation)
         {
-            _context.FavLocations.Add(favLocation);
+            await _context.FavLocations.AddAsync(favLocation);
             await _context.SaveChangesAsync();
         }
 
