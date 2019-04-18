@@ -12,19 +12,15 @@ namespace RimrockMVC.Data
 
         public RimrockDBContext(DbContextOptions<RimrockDBContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            
+        {            
         }
 
-
-        // Database Tables.
+        // Database Tables
         public DbSet<User> Users { get; set; }
         public DbSet<FavLocation> FavLocations { get; set; }
         public DbSet<FavRetailer> FavRetailers { get; set; }
-
     }
 }

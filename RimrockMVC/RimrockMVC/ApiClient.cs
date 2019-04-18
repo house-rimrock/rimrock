@@ -77,8 +77,8 @@ namespace RimrockMVC
                 {
                     var responseAsString = await response.Content.ReadAsStringAsync();
 
-                    // List<Region> is return type of API-side GET method for getting an individual Region object
-                    List<Location> parsedRegions = JsonConvert.DeserializeObject<List<Location>>(responseAsString);
+					// List<Location> is return type of API-side GET method for getting an individual Location object
+					List<Location> parsedRegions = JsonConvert.DeserializeObject<List<Location>>(responseAsString);
 
                     return parsedRegions;
                 }
@@ -109,7 +109,12 @@ namespace RimrockMVC
             }
         }
 
-        public static async Task<List<Location>> GetLocationsByRegionAsync(int regionId)
+		/// <summary>
+		/// Gets list of locations with foreign key of the specified region ID
+		/// </summary>
+		/// <param name="regionId">ID of region to get locations for</param>
+		/// <returns>List of locations</returns>
+		public static async Task<List<Location>> GetLocationsByRegionAsync(int regionId)
         {
             List<Location> allLocations = await GetLocationsAsync();
             try
@@ -122,6 +127,10 @@ namespace RimrockMVC
             }
         }
 
+		/// <summary>
+		/// Gets list of all retailers from database
+		/// </summary>
+		/// <returns>List of all retailers</returns>
         public static async Task<List<Retailer>> GetRetailersAsync()
         {
             using (HttpClient client = new HttpClient())
@@ -134,8 +143,8 @@ namespace RimrockMVC
                 {
                     var responseAsString = await response.Content.ReadAsStringAsync();
 
-                    // List<Region> is return type of API-side GET method for getting an individual Region object
-                    List<Retailer> parsedRegions = JsonConvert.DeserializeObject<List<Retailer>>(responseAsString);
+					// List<Retailer> is return type of API-side GET method for getting an individual Retailer object
+					List<Retailer> parsedRegions = JsonConvert.DeserializeObject<List<Retailer>>(responseAsString);
 
                     return parsedRegions;
                 }
@@ -143,6 +152,11 @@ namespace RimrockMVC
             }
         }
 
+		/// <summary>
+		/// Gets retailer with specified ID 
+		/// </summary>
+		/// <param name="id">ID of retailer in database</param>
+		/// <returns>Retailer object from database</returns>
         public static async Task<Retailer> GetRetailersAsync(int id)
         {
             using (HttpClient client = new HttpClient())
@@ -161,6 +175,11 @@ namespace RimrockMVC
             }
         }
 
+		/// <summary>
+		/// Gets list of all retailers with foreign key of specified region ID
+		/// </summary>
+		/// <param name="regionId">ID of region to get retailers for</param>
+		/// <returns>List of retailers matching specified region ID</returns>
         public static async Task<List<Retailer>> GetRetailersByRegionAsync(int regionId)
         {
             List<Retailer> allRetailers = await GetRetailersAsync();
