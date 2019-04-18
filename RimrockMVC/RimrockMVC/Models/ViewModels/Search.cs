@@ -11,5 +11,6 @@ namespace RimrockMVC.Models.ViewModels
         public List<T> Results { get; set; }
         public List<Region> Regions { get; set; }
         public List<int> UserFavorites { get; set; }
+        public int FilterOption { get; set; }
     }
 }

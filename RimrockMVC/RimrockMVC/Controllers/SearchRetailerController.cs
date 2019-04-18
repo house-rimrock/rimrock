@@ -20,15 +20,21 @@ namespace RimrockMVC.Controllers
             _manager = manager;
         }
 
+        /// <summary>
+        /// Grabs the Index for the Retailer search, it can also filter the Retailers by a region ID if one is provided.
+        /// </summary>
+        /// <param name="region">The optional region ID to filter by</param>
+        /// <returns>The View containing search results.</returns>
         [HttpGet]
         public async Task<IActionResult> Index(int? region)
         {
             Search<Retailer> search = new Search<Retailer>()
             {
-                Results = region is null ?
+                Results = (region is null || region == 0) ?
                     await ApiClient.GetRetailersAsync() :
                     await ApiClient.GetRetailersByRegionAsync((int)region),
-                Regions = await ApiClient.GetRegionsAsync()
+                Regions = await ApiClient.GetRegionsAsync(),
+                FilterOption = (region is null)? 0 : (int)region
             };
 
             try

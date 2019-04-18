@@ -8,10 +8,18 @@
 <form method="get">
     <label asp-for="region">Select a region</label>
     <select name="region">
+        <option value="0">Remove Filter</option>
         @{
             foreach (var region in Model.Regions)
             {
-                <option value="@region.ID">@region.Name</option>
+                if (region.ID == Model.FilterOption)
+                {
+                    <option value="@region.ID" selected="selected">@region.Name</option>
+                }
+                else
+                {
+                    <option value="@region.ID">@region.Name</option>
+                }
             }
         }
     </select>
