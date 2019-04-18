@@ -3,18 +3,18 @@ body {
   font-family: Poppins, sans-serif; }
 
 header {
-  background-color: #F2973C;
+  background-color: #F29D48;
   width: 100vw;
   height: 6vh;
   min-height: 48px;
   line-height: 6vh;
   text-align: right;
-  color: #72471C;
+  color: #4C3116;
   font-size: 3vh; }
 
 #logo-area {
-  background-color: #331F0C;
-  color: #B26F2C;
+  background-color: #26180B;
+  color: #CC843D;
   width: 20vw;
   height: 100%;
   min-width: 144px;
@@ -32,7 +32,7 @@ main {
 #sidebar {
   float: left;
   display: none;
-  background-color: #333333;
+  background-color: #262626;
   width: 20vw;
   min-width: 144px;
   height: 100%;
@@ -41,10 +41,10 @@ main {
 #renderbody {
   text-align: center;
   padding: 8px;
-  color: #727272;
+  color: #4C4C4C;
   width: 100%;
   height: 100%;
-  background-color: #F2F2F2; }
+  background-color: #CCCCCC; }
 
 #logo {
   font-family: Rakkas, cursive; }
@@ -56,15 +56,26 @@ main {
   min-width: 128px;
   height: 4vh;
   background-color: #B2B2B2;
-  color: #333333;
+  color: #262626;
   font-size: 3vh;
   line-height: 4vh;
   min-height: 36px;
   margin-top: 1vh; }
 
 #sidebar li :hover {
-  background-color: #59B22C;
-  color: #19330C; }
+  background-color: #6CCC3D;
+  color: #14260B; }
+
+.listcard {
+  background: #999999;
+  height: 10vw;
+  width: 25vw;
+  display: inline-block;
+  margin: 1vw;
+  padding: 1vw;
+  border-radius: 1vw;
+  line-height: 2.5vw;
+  color: black; }
 
 a, a:visited, a:hover, a:active {
   color: inherit;

@@ -15,7 +15,7 @@
             @{ 
                 foreach(var loc in Model.Locations)
                 {
-                    <li id="loc-@loc.Id">
+                    <li class="listcard" id="loc-@loc.Id">
                         <h5>@loc.Name</h5>
                         <p>@loc.Cost</p>
                         <a onclick="removeFavLocation(@loc.Id);" class="remove">Remove favorite</a>
@@ -27,7 +27,7 @@
             @{
                 foreach (var ret in Model.Retailers)
                 {
-                    <li id="ret-@ret.Id">
+                    <li class="listcard" id="ret-@ret.Id">
                         <h5>@ret.Name</h5>
                         <p>@ret.Specialty</p>
                         <a onclick="removeFavRetailer(@ret.Id);" class="remove">Remove favorite</a>

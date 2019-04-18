@@ -1,18 +1,19 @@
 ﻿/*Colors & Fonts*/
-$brn0: #F2973C;
-$brn1: #B26F2C;
-$brn2: #72471C;
-$brn3: #331F0C;
-$grn0: #79F23C;
-$grn1: #59B22C;
-$grn2: #39721C;
-$grn3: #19330C;
-$gry0: #F2F2F2;
+$brn0: #F29D48;
+$brn1: #CC843D;
+$brn2: #4C3116;
+$brn3: #26180B;
+$grn0: #81F248;
+$grn1: #6CCC3D;
+$grn2: #284C16;
+$grn3: #14260B;
+$gry0: #CCCCCC;
 $gry1: #B2B2B2;
-$gry2: #727272;
-$gry3: #333333;
+$gry2: #4C4C4C;
+$gry3: #262626;
 $rakkas: Rakkas, cursive;
 $poppins: Poppins, sans-serif;
+$cardback: #999999;
 
 body{
     font-family: $poppins;
@@ -89,6 +90,18 @@ main {
 #sidebar li :hover {
     background-color: $grn1;
     color: $grn3;
+}
+
+.listcard {
+    background: $cardback;
+    height: 10vw;
+    width: 25vw;
+    display: inline-block;
+    margin: 1vw;
+    padding: 1vw;
+    border-radius: 1vw;
+    line-height: 2.5vw;
+    color: black;
 }
 
 a, a:visited, a:hover, a:active {
