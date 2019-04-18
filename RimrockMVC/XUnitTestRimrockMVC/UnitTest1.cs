@@ -5,6 +5,8 @@ using RimrockMVC.Models.APImodels;
 using RimrockMVC.Models.Services;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using Xunit;
 
 namespace XUnitTestRimrockMVC
@@ -603,7 +605,13 @@ namespace XUnitTestRimrockMVC
 		[Theory]
 		[InlineData(1, 4, 4, true)]
 		[InlineData(2, 7, 5, false)]
-		public async void GetFavLocation_CanGetFavLocationById(int numForFavLocId, int numToTest, int numForUserId, bool expectedBool)
+		public async void GetFavLocation_CanGetFavLocationById
+			(
+			int numForFavLocId,
+			int numToTest,
+			int numForUserId,
+			bool expectedBool
+			)
 		{
 			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanGetFavLocById").Options;
 
@@ -705,5 +713,86 @@ namespace XUnitTestRimrockMVC
 				Assert.Equal(actualBool, expectedBool);
 			};
 		}
+
+
+		/////////////////////////////////////
+		// Tests for hitting API routes from MVC app
+		/////////////////////////////////////
+
+		/// <summary>
+		/// Tests 
+		/// </summary>
+		[Fact]
+		public async void RouteRegion()
+		{
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
+			HttpResponseMessage response = await client.GetAsync("region/");
+			Assert.True(response.IsSuccessStatusCode);
+		}
+
+		[Fact]
+		public async void RouteRegions()
+		{
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
+			HttpResponseMessage response = await client.GetAsync("region/1");
+			Assert.True(response.IsSuccessStatusCode);
+		}
+
+		[Fact]
+		public async void RouteRetailer()
+		{
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
+			HttpResponseMessage response = await client.GetAsync("retailer/");
+			Assert.True(response.IsSuccessStatusCode);
+		}
+
+		[Fact]
+		public async void RouteRetailers()
+		{
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
+			HttpResponseMessage response = await client.GetAsync("retailer/1");
+			Assert.True(response.IsSuccessStatusCode);
+		}
+
+		[Fact]
+		public async void RouteLocation()
+		{
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
+			HttpResponseMessage response = await client.GetAsync("location/");
+			Assert.True(response.IsSuccessStatusCode);
+		}
+
+		[Fact]
+		public async void RouteLocations()
+		{
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
+			HttpResponseMessage response = await client.GetAsync("location/1");
+			Assert.True(response.IsSuccessStatusCode);
+		}
+
+		[Fact]
+		public async void HomeRoute_ExpectedPass()
+		{
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/");
+			HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
+			Assert.True(response.IsSuccessStatusCode);		
+		}
+
+		//[Fact]
+		//public async void RouteLocations_ExpectedFailure()
+		//{
+		//	HttpClient client = new HttpClient();
+		//	client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/");
+		//	HttpResponseMessage response = await client.GetAsync("potato/");
+		//	//Assert.Equal("OK", response.StatusCode.ToString());
+		//	Assert.Equal(HttpStatusCode.OK, HttpStatusCode.OK);
+		//}
 	}
 }
