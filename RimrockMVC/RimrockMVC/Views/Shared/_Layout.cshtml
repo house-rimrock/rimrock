@@ -17,12 +17,15 @@
           crossorigin="anonymous">
 
     <!--Google Fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Rakkas" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rakkas|Poppins" rel="stylesheet">
 
     <!--Styles-->
     <link rel="stylesheet" href="~/Style.min.css" />
 
 </head>
+@{ 
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+}
 <body>
     <header>
         <div id="logo-area">
@@ -31,10 +34,42 @@
             </div>
             <div id="logo">RimRock</div>
         </div>
+        <!--I can't seem to get this to show up-->
+        @ViewData["Title"]
     </header>
     <main>
         <div id="sidebar">
+            <nav>
+                <ul>
+                    @if (TempData.Peek("User") is null && controller != "Home")
+                    {
+                        <li id="homebtn">
+                            <a href="@Url.Action("Index","Home")">Log In</a>
+                        </li>
+                    }
 
+                    else if (controller != "Favorite")
+                    {
+                        <!--add log out button?-->
+                        <li id="favbtn">
+                            <a href="@Url.Action("Index","Favorite")">My Favorites</a>
+                        </li>
+                    }
+
+                    @if (controller != "SearchLocation")
+                    {
+                        <li id="locbtn">
+                            <a href="@Url.Action("Index","SearchLocation")">Locations</a>
+                        </li>
+                    }
+                    @if (controller != "SearchRetailer")
+                    {
+                        <li id="retbtn">
+                            <a href="@Url.Action("Index","SearchRetailer")">Retailers</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         </div>
         <div id="renderbody">
             @RenderBody()
