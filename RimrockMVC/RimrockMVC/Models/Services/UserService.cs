@@ -21,7 +21,7 @@ namespace RimrockMVC.Models.Services
 		/// Adds new user to DB
 		/// </summary>
 		/// <param name="user">User object to save to DB</param>
-		/// <returns></returns>
+		/// <returns>Task object</returns>
         public async Task CreateUser(User user)
         {
             await _context.Users.AddAsync(user);

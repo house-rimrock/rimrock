@@ -32,22 +32,31 @@ namespace RimrockMVC
             Configuration = builder.Build();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+		/// <summary>
+		/// Adds middleware services and mappings between interfaces and services for repository design pattern
+		/// </summary>
+		/// <param name="services">Service to inject as dependency</param>
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = Environment.IsDevelopment()
                 ? Configuration["ConnectionStrings:Default"]
                 : Configuration["ConnectionStrings:Production"];
-            services.AddMvc();
+
+			services.AddMvc();
             services.AddDbContext<RimrockDBContext>(options => options.UseSqlServer(connectionString));
-            services.AddScoped<IUserManager, UserService>();
+
+			// Mappings between interfaces and the services that implement them
+			services.AddScoped<IUserManager, UserService>();
             services.AddScoped<IFavRetailerManager, FavRetailerService>();
             services.AddScoped<IFavLocationManager, FavLocationService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		/// <summary>
+		/// This method gets called by the runtime and is used to configure the HTTP request pipeline.
+		/// </summary>
+		/// <param name="app">Class that provides mechanisms to configure app's request pipeline</param>
+		/// <param name="env">Web hosting environment</param>
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

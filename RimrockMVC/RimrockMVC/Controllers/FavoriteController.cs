@@ -76,12 +76,22 @@ namespace RimrockMVC.Controllers
             });
         }
 
-        [HttpDelete]
+		/// <summary>
+		/// Deletes a saved favorite location that matches specified ID argument
+		/// </summary>
+		/// <param name="favLocationId">ID of saved favorite location</param>
+		/// <returns>Task object</returns>
+		[HttpDelete]
         public async Task RemoveFavLocation(string favLocationId)
         {
             await _locContext.DeleteFavLocation(int.Parse(favLocationId));
         }
 
+		/// <summary>
+		/// Deletes a saved favorite retailer that matches specified ID argument
+		/// </summary>
+		/// <param name="favRetailerId">ID of saved favorite retailer</param>
+		/// <returns>Task object</returns>
         [HttpDelete]
         public async Task RemoveFavRetailer(string favRetailerId)
         {
