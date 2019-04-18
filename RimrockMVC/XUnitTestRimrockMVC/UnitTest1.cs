@@ -5,6 +5,7 @@ using RimrockMVC.Models.APImodels;
 using RimrockMVC.Models.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Xunit;
@@ -740,91 +741,43 @@ namespace XUnitTestRimrockMVC
 				// Act
 				await favLocService.DeleteFavLocation(1);
 
-				List<FavLocation> listOfLocationsInDb = await favLocService.GetFavLocations(newFavLocation.UserId);
-
+				List<FavLocation> listOfLocationsInDb = await context.FavLocations.Where(fl => fl.UserId == newFavLocation.Id).ToListAsync(); 
+					
 				// Assert
 				Assert.Empty(listOfLocationsInDb);
 			};
 		}
 
-		/////////////////////////////////////
-		// Tests for hitting API routes from MVC app
-		/////////////////////////////////////
-
 		/// <summary>
-		/// Tests 
+		/// Tests whether can delete a saved favorite location from DB
 		/// </summary>
 		[Fact]
-		public async void RouteRegion()
+		public async void DeleteFavRetailer_CanDeleteFavRetailerById()
 		{
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
-			HttpResponseMessage response = await client.GetAsync("region/");
-			Assert.True(response.IsSuccessStatusCode);
-		}
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanDeleteFavRetailerById").Options;
 
-		[Fact]
-		public async void RouteRegions()
-		{
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
-			HttpResponseMessage response = await client.GetAsync("region/1");
-			Assert.True(response.IsSuccessStatusCode);
-		}
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavRetailer newFavRetailer = new FavRetailer();
+				newFavRetailer.Id = 1;
+				newFavRetailer.Name = "Second Ascents";
+				newFavRetailer.Specialty = "Climbing";
 
-		[Fact]
-		public async void RouteRetailer()
-		{
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
-			HttpResponseMessage response = await client.GetAsync("retailer/");
-			Assert.True(response.IsSuccessStatusCode);
-		}
+				// Act
+				FavRetailerService favRetailerService = new FavRetailerService(context);
 
-		[Fact]
-		public async void RouteRetailers()
-		{
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
-			HttpResponseMessage response = await client.GetAsync("retailer/1");
-			Assert.True(response.IsSuccessStatusCode);
-		}
+				await context.FavRetailers.AddAsync(newFavRetailer);
+				await context.SaveChangesAsync();
 
-		[Fact]
-		public async void RouteLocation()
-		{
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
-			HttpResponseMessage response = await client.GetAsync("location/");
-			Assert.True(response.IsSuccessStatusCode);
-		}
+				// Act
+				await favRetailerService.DeleteFavRetailer(1);
 
-		[Fact]
-		public async void RouteLocations()
-		{
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/api/");
-			HttpResponseMessage response = await client.GetAsync("location/1");
-			Assert.True(response.IsSuccessStatusCode);
-		}
+				List<FavRetailer> listOfRetailersInDb = await context.FavRetailers.Where(fr => fr.UserId == newFavRetailer.Id).ToListAsync();
 
-		[Fact]
-		public async void HomeRoute_ExpectedPass()
-		{
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/");
-			HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
-			Assert.True(response.IsSuccessStatusCode);		
+				// Assert
+				Assert.Empty(listOfRetailersInDb);
+			};
 		}
-
-		//[Fact]
-		//public async void RouteLocations_ExpectedFailure()
-		//{
-		//	HttpClient client = new HttpClient();
-		//	client.BaseAddress = new Uri("https://rimrockapi.azurewebsites.net/");
-		//	HttpResponseMessage response = await client.GetAsync("potato/");
-		//	//Assert.Equal("OK", response.StatusCode.ToString());
-		//	Assert.Equal(HttpStatusCode.OK, HttpStatusCode.OK);
-		//}
 	}
 }
