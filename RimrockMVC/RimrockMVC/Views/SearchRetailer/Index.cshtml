@@ -4,18 +4,60 @@
     ViewData["Title"] = "Browse Retailers";
 }
 
-<!--TODO: Search form w/ drop-down list-->
+<!--TODO: Test drop-down-->
+<form method="get">
+    <label asp-for="region">Select a region</label>
+    <select name="region">
+        @{
+            foreach (var region in Model.Regions)
+            {
+                <option value="@region.ID">@region.Name</option>
+            }
+        }
+    </select>
+    <input type="submit" value="Filter" />
+</form>
 
 @if (Model.Results.Count == 0)
 {
     <h1>No retailers found!</h1>
 }
-<ul>
-    @foreach (var retailer in Model.Results)
-    {
-        <li>
-            @retailer.Name
-            <!--TODO: Add/Remove favorite button-->
-        </li>
+else
+{
+    var favIds = ViewData["FavIds"] as List<int>;
+
+    <ul>
+        @foreach (var retailer in Model.Results)
+        {
+            <li>
+                @retailer.Name
+                <!--TODO: Don't show favorite button if retailer is already favorited-->
+                @if (ViewData["User"] != null)
+                {
+                    <a onclick="addFavorite(@retailer.ID);" class="favadd">Add to favorites</a>
+                }
+            </li>
+        }
+    </ul>
+}
+
+<script>
+    $(document).ready(function () {
+        $('.favadd').click(function (e) {
+            e.preventDefault();
+            $(this).toggle();
+        });
+    });
+
+    function addFavorite(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/favorite/addfavretailer',
+            datatype: 'json',
+            data: { retailerId: id },
+            error: function () {
+                alert('Error');
+            }
+        });
     }
-</ul>
+</script>

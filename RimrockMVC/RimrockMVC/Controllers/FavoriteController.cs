@@ -47,5 +47,20 @@ namespace RimrockMVC.Controllers
                 RegionId = location.RegionID
             });
         }
+
+        [HttpPost]
+        public async Task AddFavRetailer(string retailerId)
+        {
+            string userSer = TempData.Peek("User").ToString();
+            User user = JsonConvert.DeserializeObject<User>(userSer);
+            Retailer retailer = await ApiClient.GetRetailersAsync(int.Parse(retailerId));
+            await _retContext.CreateFavRetailer(new FavRetailer
+            {
+                UserId = user.ID,
+                Name = retailer.Name,
+                RegionId = retailer.RegionID,
+                Specialty = retailer.Specialty
+            });
+        }
     }
 }
