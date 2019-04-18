@@ -44,7 +44,8 @@ namespace RimrockMVC.Controllers
                 UserId = user.ID,
                 Cost = location.Cost,
                 Name = location.Name,
-                RegionId = location.RegionID
+                RegionId = location.RegionID,
+                LocationId = location.ID
             });
         }
 
@@ -59,7 +60,8 @@ namespace RimrockMVC.Controllers
                 UserId = user.ID,
                 Name = retailer.Name,
                 RegionId = retailer.RegionID,
-                Specialty = retailer.Specialty
+                Specialty = retailer.Specialty,
+                RetailerId = retailer.ID
             });
         }
     }

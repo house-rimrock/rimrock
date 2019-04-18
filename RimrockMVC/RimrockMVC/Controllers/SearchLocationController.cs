@@ -36,6 +36,12 @@ namespace RimrockMVC.Controllers
                 string userstr = TempData.Peek("User").ToString();
                 User user = JsonConvert.DeserializeObject<User>(userstr);
                 List<FavLocation> favs = await _manager.GetFavLocations(user.ID);
+                List<int> userFavs = new List<int>();
+                foreach (var fav in favs)
+                {
+                    userFavs.Add(fav.LocationId);
+                }
+                search.UserFavorites = userFavs;
                 ViewData["User"] = user.Name;
             }
             catch

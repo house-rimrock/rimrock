@@ -32,7 +32,7 @@ else
             <li>
                 @retailer.Name
                 <!--TODO: Don't show favorite button if retailer is already favorited-->
-                @if (ViewData["User"] != null)
+                @if (ViewData["User"] != null && !Model.UserFavorites.Contains(retailer.ID))
                 {
                     <a onclick="addFavorite(@retailer.ID);" class="favadd">Add to favorites</a>
                 }
