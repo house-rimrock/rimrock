@@ -37,16 +37,20 @@ else
     <ul>
         @foreach (var location in Model.Results)
         {
-            <li class="listcard">
-                <h4>@location.Name</h4>
+        <li class="listcard">
+            <h4>@location.Name</h4>
 
-                <p>Price Range For Entry: @location.Cost</p>
-                <!--TODO: Don't display add favorites button if location is already favorited-->
-                @if (ViewData["User"] != null && !Model.UserFavorites.Contains(location.ID))
-                {
-                    <a onclick="addFavorite(@location.ID);" class="favadd">Add to favorites</a>
-                }
-            </li>
+            <p>Price Range: @location.Cost</p>
+            <!--TODO: Don't display add favorites button if location is already favorited-->
+            @if (ViewData["User"] != null && !Model.UserFavorites.Contains(location.ID))
+            {
+                <a onclick="addFavorite(@location.ID);" class="favadd">Add to favorites</a>
+            }
+            else
+            {
+                <p style="visibility:hidden"></p>
+            }
+        </li>
         }
     </ul>
 }
@@ -55,7 +59,7 @@ else
     $(document).ready(function () {
         $('.favadd').click(function (e) {
             e.preventDefault();
-            $(this).remove();
+            $(this).css("visibility", "hidden");
         });
     });
 

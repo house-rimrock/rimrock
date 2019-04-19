@@ -40,11 +40,16 @@ else
         <li class="listcard">
             <h4>@retailer.Name</h4>
 
-            <p>Specializes In Equipment For: @retailer.Specialty</p>
+            <p>Specializes In: @retailer.Specialty</p>
             <!--TODO: Don't show favorite button if retailer is already favorited-->
+
             @if (ViewData["User"] != null && !Model.UserFavorites.Contains(retailer.ID))
             {
                 <a onclick="addFavorite(@retailer.ID);" class="favadd">Add to favorites</a>
+            }
+            else
+            {
+                <p style="visibility:hidden"></p>
             }
         </li>
         }
@@ -55,7 +60,7 @@ else
     $(document).ready(function () {
         $('.favadd').click(function (e) {
             e.preventDefault();
-            $(this).remove();
+            $(this).css("visibility", "hidden");
         });
     });
 

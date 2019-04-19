@@ -6,63 +6,78 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+    <head>
     
-</head>
-<body>
-    <div>
-        <ul class="favoriteList">
-            @{ 
-                foreach(var loc in Model.Locations)
-                {
-                    <li class="listcard" id="loc-@loc.Id">
-                        <h5>@loc.Name</h5>
-                        <p>@loc.Cost</p>
-                        <a onclick="removeFavLocation(@loc.Id);" class="remove">Remove favorite</a>
-                    </li>
+    </head>
+    <body>
+        <div>
+            <p>Favorite Locations</p>
+            @if (Model.Locations.Count > 0) {
+            <ul class="favoriteList">
+                @{
+                    foreach (var loc in Model.Locations)
+                    {
+                        <li class="listcard" id="loc-@loc.Id">
+                            <h5>@loc.Name</h5>
+                            <p>@loc.Cost</p>
+                            <a onclick="removeFavLocation(@loc.Id);" class="remove">Remove favorite</a>
+                        </li>
+                    }
                 }
+            </ul>
             }
-        </ul>
-        <ul class="favoriteList">
-            @{
-                foreach (var ret in Model.Retailers)
-                {
-                    <li class="listcard" id="ret-@ret.Id">
-                        <h5>@ret.Name</h5>
-                        <p>@ret.Specialty</p>
-                        <a onclick="removeFavRetailer(@ret.Id);" class="remove">Remove favorite</a>
-                    </li>
+            else
+            {
+            <p>No Favorite Retailers Saved</p>
+            }
+            <p>Favorite Retailers</p>
+            @if (Model.Retailers.Count > 0)
+            {
+                <ul class="favoriteList">
+                    @{
+                        foreach (var ret in Model.Retailers)
+                        {
+                            <li class="listcard" id="ret-@ret.Id">
+                                <h5>@ret.Name</h5>
+                                <p>@ret.Specialty</p>
+                                <a onclick="removeFavRetailer(@ret.Id);" class="remove">Remove favorite</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No Favorite Retailers Saved</p>
+            }
+        </div>
+
+        <script>
+        function removeFavLocation(id) {
+            $('#loc-' + id).remove();
+            $.ajax({
+                type: 'DELETE',
+                url: '/favorite/removefavlocation',
+                datatype: 'json',
+                data: { favLocationId: id },
+                error: function () {
+                    alert('Error');
                 }
-            }
-        </ul>
-    </div>
+            });
+        }
 
-    <script>
-    function removeFavLocation(id) {
-        $('#loc-' + id).remove();
-        $.ajax({
-            type: 'DELETE',
-            url: '/favorite/removefavlocation',
-            datatype: 'json',
-            data: { favLocationId: id },
-            error: function () {
-                alert('Error');
-            }
-        });
-    }
-
-    function removeFavRetailer(id) {
-        $('#ret-' + id).remove();
-        $.ajax({
-            type: 'DELETE',
-            url: '/favorite/removefavretailer',
-            datatype: 'json',
-            data: { favRetailerId: id },
-            error: function () {
-                alert('Error');
-            }
-        });
-    }
-    </script>
-</body>
+        function removeFavRetailer(id) {
+            $('#ret-' + id).remove();
+            $.ajax({
+                type: 'DELETE',
+                url: '/favorite/removefavretailer',
+                datatype: 'json',
+                data: { favRetailerId: id },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        }
+        </script>
+    </body>
 </html>
