@@ -23,6 +23,12 @@ Members:
 
 ![DBSchema](https://github.com/house-rimrock/rimrock/blob/master/assets/db-schema-rimrock.png)
 
+## API
+
+Rimrock is supported by the Rimrock API. See the API on [GitHub](https://github.com/house-rimrock/rimrock_api).
+
+------------------------------
+
 ## WIREFRAMES
 
 ![Color](https://github.com/house-rimrock/rimrock/blob/master/wireframes/color.png)
