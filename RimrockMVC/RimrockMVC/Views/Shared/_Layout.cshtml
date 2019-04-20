@@ -6,9 +6,7 @@
     <title>@ViewData["Title"]</title>
 
     <!--JQuery-->
-    <script src="https://code.jquery.com/jquery-3.4.0.slim.min.js"
-            integrity="sha256-ZaXnYkHGqIhqTbJ6MB4l9Frs/r7U4jlx7ir8PJYBqbI="
-            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
     <!--Reset CSS-->
     <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css" />
@@ -19,12 +17,14 @@
           crossorigin="anonymous">
 
     <!--Google Fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Rakkas" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rakkas|Poppins" rel="stylesheet">
 
     <!--Styles-->
     <link rel="stylesheet" href="~/Style.min.css" />
-
 </head>
+@{ 
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+}
 <body>
     <header>
         <div id="logo-area">
@@ -33,10 +33,41 @@
             </div>
             <div id="logo">RimRock</div>
         </div>
+        <!--I can't seem to get this to show up-->
     </header>
     <main>
         <div id="sidebar">
+            <nav>
+                <ul>
+                    @if (TempData.Peek("User") is null && controller != "Home")
+                    {
+                        <li id="homebtn">
+                            <a href="@Url.Action("Index","Home")">Log In</a>
+                        </li>
+                    }
 
+                    else if (controller != "Favorite")
+                    {
+                        <!--add log out button?-->
+                        <li id="favbtn">
+                            <a href="@Url.Action("Index","Favorite")">My Favorites</a>
+                        </li>
+                    }
+
+                    @if (controller != "SearchLocation")
+                    {
+                        <li id="locbtn">
+                            <a href="@Url.Action("Index","SearchLocation")">Locations</a>
+                        </li>
+                    }
+                    @if (controller != "SearchRetailer")
+                    {
+                        <li id="retbtn">
+                            <a href="@Url.Action("Index","SearchRetailer")">Retailers</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         </div>
         <div id="renderbody">
             @RenderBody()

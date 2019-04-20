@@ -1,18 +1,25 @@
-﻿header {
-  background-color: #20B9BF;
+﻿/*Colors & Fonts*/
+body {
+  font-family: Poppins, sans-serif;
+  background: #F2F2F2; }
+
+header {
+  background-color: #F2973C;
   width: 100vw;
   height: 6vh;
   min-height: 48px;
-  line-height: 6vh; }
+  line-height: 6vh;
+  text-align: right;
+  color: #72471C;
+  font-size: 3vh; }
 
 #logo-area {
-  background-color: #2AF6FF;
-  color: #222629;
+  background-color: #331F0C;
+  color: #B26F2C;
   width: 20vw;
   height: 100%;
   min-width: 144px;
-  text-align: center;
-  font-size: 3vh; }
+  text-align: center; }
 
 main {
   position: absolute;
@@ -26,25 +33,62 @@ main {
 #sidebar {
   float: left;
   display: none;
-  background-color: #6B6E70;
+  background-color: #333333;
   width: 20vw;
   min-width: 144px;
-  height: 100%; }
+  height: 100%;
+  text-align: center; }
 
 #renderbody {
+  text-align: center;
   padding: 8px;
-  color: #D2D6D8;
+  color: #727272;
   width: 100%;
   height: 100%;
-  background-color: #474B4F; }
+  background-color: #F2F2F2; }
 
 #logo {
   font-family: Rakkas, cursive; }
 
+#sidebar a {
+  display: block;
+  margin: auto;
+  width: 18vw;
+  min-width: 128px;
+  height: 4vh;
+  background-color: #B2B2B2;
+  color: #333333;
+  font-size: 3vh;
+  line-height: 4vh;
+  min-height: 36px;
+  margin-top: 1vh; }
+
+#sidebar li :hover {
+  background-color: #59B22C;
+  color: #19330C; }
+
+.listcard {
+  background: #999999;
+  height: 10vw;
+  width: 20vw;
+  display: inline-block;
+  margin: 1vw;
+  padding: 1vw;
+  border-radius: 1vw;
+  line-height: 3vw;
+  color: black; }
+
+a, a:visited, a:hover, a:active {
+  color: inherit;
+  text-decoration: none; }
+
 @media all and (max-height: 800) {
   header {
-    line-height: 48px; }
+    line-height: 48px;
+    font-size: 24px; }
   main {
     height: 100vh-get-vh(48px); }
-  #logo-area {
+  #sidebar li {
+    margin-top: 8px;
+    line-height: 36px;
     font-size: 24px; } }

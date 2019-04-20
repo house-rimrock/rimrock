@@ -16,20 +16,31 @@ namespace RimrockMVC.Models.Services
             _context = context;
 
         }
+
+		/// <summary>
+		/// Adds new user to DB
+		/// </summary>
+		/// <param name="user">User object to save to DB</param>
+		/// <returns>Task object</returns>
         public async Task CreateUser(User user)
         {
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<User> GetUser(string name)
+		/// <summary>
+		/// Get user by name from DB
+		/// </summary>
+		/// <param name="userName">user's name</param>
+		/// <returns>User object</returns>
+        public async Task<User> GetUser(string userName)
         {
-            User user = await _context.Users.FirstOrDefaultAsync<User>(u => u.Name == name);
+            User user = await _context.Users.FirstOrDefaultAsync<User>(u => u.Name == userName);
             if (user == null)
             {
-                User cUser = new User { Name = name };
+                User cUser = new User { Name = userName };
                 await CreateUser(cUser);
-                user = await _context.Users.FirstOrDefaultAsync<User>(u => u.Name == name);
+                user = await _context.Users.FirstOrDefaultAsync<User>(u => u.Name == userName);
             }
             return user;
         }

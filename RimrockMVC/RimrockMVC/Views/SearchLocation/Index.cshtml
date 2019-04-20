@@ -1,1 +1,78 @@
-﻿
+﻿@model RimrockMVC.Models.ViewModels.Search<RimrockMVC.Models.APImodels.Location>
+
+@{
+    ViewData["Title"] = "Browse Locations";
+}
+
+<!--TODO: Test drop-down-->
+<form method="get">
+    <label asp-for="region">Select a region</label>
+    <select name="region">
+        <option value="0">Remove Filter</option>
+        @{
+            foreach (var region in Model.Regions)
+            {
+                if (region.ID == Model.FilterOption)
+                {
+                    <option value="@region.ID" selected="selected">@region.Name</option>
+                }
+                else
+                {
+                    <option value="@region.ID">@region.Name</option>
+                }
+            }
+        }
+    </select>
+    <input type="submit" value="Filter" />
+</form>
+
+@if (Model.Results.Count == 0)
+{
+    <h1>No locations found!</h1>
+}
+else
+{ 
+    var favIds = ViewData["FavIds"] as List<int>;
+
+    <ul>
+        @foreach (var location in Model.Results)
+        {
+        <li class="listcard">
+            <h4>@location.Name</h4>
+
+            <p>Price Range: @location.Cost</p>
+            <!--TODO: Don't display add favorites button if location is already favorited-->
+            @if (ViewData["User"] != null && !Model.UserFavorites.Contains(location.ID))
+            {
+                <a onclick="addFavorite(@location.ID);" class="favadd">Add to favorites</a>
+            }
+            else
+            {
+                <p style="visibility:hidden"></p>
+            }
+        </li>
+        }
+    </ul>
+}
+
+<script>
+    $(document).ready(function () {
+        $('.favadd').click(function (e) {
+            e.preventDefault();
+            $(this).css("visibility", "hidden");
+        });
+    });
+
+    function addFavorite(id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/favorite/addfavlocation',
+            datatype: 'json',
+            data: { locationId: id },
+            error: function () {
+                alert('Error');
+            }
+        });
+    }
+</script>

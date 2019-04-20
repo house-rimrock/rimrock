@@ -4,6 +4,8 @@
 "A website that allows you to lookup climbing locations and gear retailers"
 ```
 
+*URL: [rimrock.azurewebsites.net](https://rimrock.azurewebsites.net/)*
+
 Project Midterm, one week sprint.
 
 Members:

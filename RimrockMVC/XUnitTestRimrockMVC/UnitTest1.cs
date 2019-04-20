@@ -1,19 +1,25 @@
+using Microsoft.EntityFrameworkCore;
+using RimrockMVC.Data;
 using RimrockMVC.Models;
 using RimrockMVC.Models.APImodels;
+using RimrockMVC.Models.Services;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using Xunit;
 
 namespace XUnitTestRimrockMVC
 {
     public class UnitTest1
     {
-        /////////////////////////////////
-        // Test getters and setters
-        /////////////////////////////////
 
-        // API MODELS
+		///////////////////////////////////////////
+		// Test auto-implemented properties for Region class
+		///////////////////////////////////////////
 
-        [Fact]
+		[Fact]
         public void CanGetRegionID()
         {
             // Arrange
@@ -59,7 +65,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal("The Okanogan, WA", region.Name);
         }
 
-        [Fact]
+
+		///////////////////////////////////////////
+		// Test auto-implemented properties for Location class
+		///////////////////////////////////////////
+
+		[Fact]
         public void CanGetLocationID()
         {
             // Arrange
@@ -128,7 +139,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal(2, location.RegionID);
         }
 
-        [Fact]
+
+		///////////////////////////////////////////
+		// Test auto-implemented properties for Retailer class
+		///////////////////////////////////////////
+		
+		[Fact]
         public void CanGetRetailerID()
         {
             // Arrange
@@ -197,9 +213,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal(2, retailer.RegionID);
         }
 
-        // Main models
 
-        [Fact]
+		///////////////////////////////////////////
+		// Test auto-implemented properties for FavRetailer class
+		///////////////////////////////////////////
+
+		[Fact]
         public void CanGetFavRetailerID()
         {
             // Arrange
@@ -314,7 +333,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal("Rocks", favRetailer.Specialty);
         }
 
-        [Fact]
+
+		///////////////////////////////////////////
+		// Test auto-implemented properties for User class
+		///////////////////////////////////////////
+		///
+		[Fact]
         public void CanGetUserId()
         {
             // Arrange
@@ -329,7 +353,6 @@ namespace XUnitTestRimrockMVC
         {
             // Arrange
             User user = new User();
-
 
             // Act
             user.ID = 3;
@@ -361,9 +384,12 @@ namespace XUnitTestRimrockMVC
             Assert.Equal("Andrew", user.Name);
         }
 
-        ///////////////////////////////////////////
 
-        [Fact]
+		///////////////////////////////////////////
+		// Test auto-implemented properties for FavLocation class
+		///////////////////////////////////////////
+
+		[Fact]
         public void CanGetFavLoctionID()
         {
             // Arrange
@@ -468,7 +494,6 @@ namespace XUnitTestRimrockMVC
             // Arrange
             FavLocation favLocation = new FavLocation();
 
-
             // Assert
             Assert.Null(favLocation.Cost);
         }
@@ -479,13 +504,280 @@ namespace XUnitTestRimrockMVC
             // Arrange
             FavLocation favLocation = new FavLocation();
 
-
             // Act
-            favLocation.Cost = "Rocks";
+            favLocation.Cost = "$$";
 
             // Assert
-            Assert.Equal("Rocks", favLocation.Cost);
+            Assert.Equal("$$", favLocation.Cost);
         }
 
-    }
+
+		/////////////////////////////////////
+		// Tests for MVC app CRUD operations
+		/////////////////////////////////////
+
+		/// <summary>
+		/// Tests whether can create a new user in DB
+		/// </summary>
+		[Fact]
+		public async void CreateUser_CanCreateSingleUser()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanCreateSingleUser").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				User newUser = new User();
+				newUser.ID = 1;
+				newUser.Name = "Phil Werner";
+
+				// Act
+				UserService userService = new UserService(context);
+
+				await userService.CreateUser(newUser);
+
+				User userFromDb = await context.Users
+									.FirstOrDefaultAsync(u => u.Name == newUser.Name);
+
+				// Assert
+				Assert.Equal(userFromDb, newUser);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can get user by name from DB
+		/// </summary>
+		[Fact]
+		public async void GetUser_CanGetSingleUser()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanGetSingleUserByName").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				User newUser = new User();
+				newUser.ID = 1;
+				newUser.Name = "Jason Burns";
+
+				// Act
+				UserService userService = new UserService(context);
+				await context.Users.AddAsync(newUser);
+				await context.SaveChangesAsync();
+
+				User userFromDb = await userService.GetUser(newUser.Name);
+
+				// Assert
+				Assert.Equal(userFromDb, newUser);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can save a new favorite location to DB
+		/// </summary>
+		[Fact]
+		public async void CreateFavLocation_CanAddNewFavLocationInDatabase()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanCreateNewFavLocation").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavLocation favLocation = new FavLocation();
+				favLocation.Id = 1;
+				favLocation.Name = "Yosemite";
+				favLocation.Cost = "$$";
+
+				// Act
+				FavLocationService favLocService = new FavLocationService(context);
+
+				await favLocService.CreateFavLocation(favLocation);
+
+				FavLocation favLocationFromDb = await context.FavLocations
+											.FirstOrDefaultAsync(fl => fl.Name == favLocation.Name);
+
+				// Assert
+				Assert.Equal(favLocationFromDb, favLocation);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can get favorite location by ID from DB
+		/// </summary>
+		[Theory]
+		[InlineData(1, 4, 4, true)]
+		[InlineData(2, 7, 5, false)]
+		public async void GetFavLocation_CanGetFavLocationById
+			(
+			int numForFavLocId,
+			int numToTest,
+			int numForUserId,
+			bool expectedBool
+			)
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanGetFavLocById").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavLocation newFavLocation = new FavLocation();
+				newFavLocation.Id = numForFavLocId;
+				newFavLocation.UserId = numForUserId;
+				newFavLocation.RegionId = 2;
+				newFavLocation.Name = "Grand Teton";
+				newFavLocation.Cost = "$$";
+
+				FavLocationService favLocService = new FavLocationService(context);
+
+				await context.FavLocations.AddAsync(newFavLocation);
+				await context.SaveChangesAsync();
+
+				// Act
+				List<FavLocation> favLocationListFromDb = await favLocService.GetFavLocations(newFavLocation.UserId);
+
+				// Boolean test (needed for Theory-type unit test)
+				bool actualBool = false; 
+				if (numToTest == favLocationListFromDb[0].UserId)
+				{
+					actualBool = true;
+				}
+
+				// Assert
+				Assert.Equal(actualBool, expectedBool);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can save a new favorite retailer to DB
+		/// </summary>
+		[Fact]
+		public async void CreateFavRetailer_CanAddNewFavRetailerInDatabase()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanCreateNewFavRetailer").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavRetailer favRetailer = new FavRetailer();
+				favRetailer.Id = 1;
+				favRetailer.Name = "Second Ascents";
+				favRetailer.Specialty = "Climbing";
+
+				// Act
+				FavRetailerService favRetailerService = new FavRetailerService(context);
+
+				await favRetailerService.CreateFavRetailer(favRetailer);
+
+				FavRetailer favRetailersFromDb = await context.FavRetailers
+											.FirstOrDefaultAsync(fl => fl.Name == favRetailer.Name);
+
+				// Assert
+				Assert.Equal(favRetailersFromDb, favRetailer);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can get favorite retailer by ID from DB
+		/// </summary>
+		[Theory]
+		[InlineData(1, 4, 4, true)]
+		[InlineData(2, 7, 5, false)]
+		public async void GetFavRetailer_CanGetFavRetailerById(int numForFavRetailerId, int numToTest, int numForUserId, bool expectedBool)
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanGetFavRetailerById").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavRetailer newFavRetailer = new FavRetailer();
+				newFavRetailer.Id = numForFavRetailerId;
+				newFavRetailer.UserId = numForUserId;
+				newFavRetailer.RegionId = 2;
+				newFavRetailer.Name = "Grand Teton";
+				newFavRetailer.Specialty = "Mountaineering";
+
+				FavRetailerService favRetailerService = new FavRetailerService(context);
+
+				await context.FavRetailers.AddAsync(newFavRetailer);
+				await context.SaveChangesAsync();
+
+				// Act
+				List<FavRetailer> favRetailerListFromDb = await favRetailerService.GetFavRetailers(newFavRetailer.UserId);
+
+				// Boolean test (needed for Theory-type unit test)
+				bool actualBool = false;
+				if (numToTest == favRetailerListFromDb[0].UserId)
+				{
+					actualBool = true;
+				}
+
+				// Assert
+				Assert.Equal(actualBool, expectedBool);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can delete a saved favorite location from DB
+		/// </summary>
+		[Fact]
+		public async void DeleteFavLocation_CanDeleteFavLocationById()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanDeleteFavLocById").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavLocation newFavLocation = new FavLocation();
+				newFavLocation.Id = 1;
+				newFavLocation.UserId = 1;
+				newFavLocation.RegionId = 2;
+				newFavLocation.Name = "Grand Teton";
+				newFavLocation.Cost = "$$";
+
+				FavLocationService favLocService = new FavLocationService(context);
+
+				await context.FavLocations.AddAsync(newFavLocation);
+				await context.SaveChangesAsync();
+
+				// Act
+				await favLocService.DeleteFavLocation(1);
+
+				List<FavLocation> listOfLocationsInDb = await context.FavLocations.Where(fl => fl.UserId == newFavLocation.Id).ToListAsync(); 
+					
+				// Assert
+				Assert.Empty(listOfLocationsInDb);
+			};
+		}
+
+		/// <summary>
+		/// Tests whether can delete a saved favorite location from DB
+		/// </summary>
+		[Fact]
+		public async void DeleteFavRetailer_CanDeleteFavRetailerById()
+		{
+			DbContextOptions<RimrockDBContext> options = new DbContextOptionsBuilder<RimrockDBContext>().UseInMemoryDatabase("CanDeleteFavRetailerById").Options;
+
+			using (RimrockDBContext context = new RimrockDBContext(options))
+			{
+				// Arrange
+				FavRetailer newFavRetailer = new FavRetailer();
+				newFavRetailer.Id = 1;
+				newFavRetailer.Name = "Second Ascents";
+				newFavRetailer.Specialty = "Climbing";
+
+				// Act
+				FavRetailerService favRetailerService = new FavRetailerService(context);
+
+				await context.FavRetailers.AddAsync(newFavRetailer);
+				await context.SaveChangesAsync();
+
+				// Act
+				await favRetailerService.DeleteFavRetailer(1);
+
+				List<FavRetailer> listOfRetailersInDb = await context.FavRetailers.Where(fr => fr.UserId == newFavRetailer.Id).ToListAsync();
+
+				// Assert
+				Assert.Empty(listOfRetailersInDb);
+			};
+		}
+	}
 }
