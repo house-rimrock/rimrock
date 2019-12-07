@@ -4,8 +4,6 @@
 "A website that allows you to lookup climbing locations and gear retailers"
 ```
 
-*URL: [rimrock.azurewebsites.net](https://rimrock.azurewebsites.net/)*
-
 Project Midterm, one week sprint.
 
 Members:
@@ -48,3 +46,4 @@ Rimrock is supported by the Rimrock API. See the API on [GitHub](https://github.
 0.1.0: 12APR2019 *Initial publish*
 
 0.1.1: 15APR2019 READEME: User Stories moved to file, header
+* Site undeployed 2019-05
